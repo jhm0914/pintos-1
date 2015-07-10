@@ -1,0 +1,44 @@
+../../userprog/process.c: In function ‘argument_stack’:
+../../userprog/process.c:60:2: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+../../userprog/process.c:60:23: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+../../userprog/process.c:74:13: warning: assignment from incompatible pointer type [enabled by default]
+../../userprog/process.c:76:8: warning: assignment from incompatible pointer type [enabled by default]
+../../userprog/process.c:90:14: warning: assignment makes integer from pointer without a cast [enabled by default]
+../../userprog/process.c: In function ‘process_execute’:
+../../userprog/process.c:116:27: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+../../userprog/process.c:134:3: warning: implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+../../userprog/process.c:134:3: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+../../userprog/process.c: In function ‘start_process’:
+../../userprog/process.c:157:22: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+../../userprog/process.c:161:7: warning: implicit declaration of function ‘realloc’ [-Wimplicit-function-declaration]
+../../userprog/process.c:161:22: warning: incompatible implicit declaration of built-in function ‘realloc’ [enabled by default]
+../../userprog/process.c:163:25: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+../../userprog/process.c:188:5: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+../../userprog/process.c:190:3: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+../../userprog/process.c:192:3: warning: passing argument 1 of ‘hex_dump’ makes integer from pointer without a cast [enabled by default]
+../../lib/stdio.h:27:6: note: expected ‘uintptr_t’ but argument is of type ‘void *’
+../../userprog/process.c:188:9: warning: ‘argv’ may be used uninitialized in this function [-Wuninitialized]
+../../userprog/syscall.c: In function ‘halt’:
+../../userprog/syscall.c:25:2: warning: implicit declaration of function ‘shutdown_power_off’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c: In function ‘create’:
+../../userprog/syscall.c:36:2: warning: implicit declaration of function ‘filesys_create’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c: In function ‘remove’:
+../../userprog/syscall.c:40:2: warning: implicit declaration of function ‘filesys_remove’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c: In function ‘exec’:
+../../userprog/syscall.c:45:2: warning: implicit declaration of function ‘process_execute’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c:48:9: warning: implicit declaration of function ‘get_child_process’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c:48:21: warning: initialization makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c: In function ‘wait’:
+../../userprog/syscall.c:64:2: warning: implicit declaration of function ‘process_wait’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c: In function ‘check_address’:
+../../userprog/syscall.c:74:3: warning: format ‘%p’ expects argument of type ‘void *’, but argument 2 has type ‘uint32_t’ [-Wformat]
+../../userprog/syscall.c: In function ‘syscall_handler’:
+../../userprog/syscall.c:132:3: warning: passing argument 1 of ‘create’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:34:6: note: expected ‘const char *’ but argument is of type ‘int’
+../../userprog/syscall.c:137:3: warning: passing argument 1 of ‘remove’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:38:6: note: expected ‘const char *’ but argument is of type ‘int’
+../../userprog/syscall.c: In function ‘wait’:
+../../userprog/syscall.c:65:1: warning: control reaches end of non-void function [-Wreturn-type]
+../../userprog/syscall.c: In function ‘exec’:
+../../userprog/syscall.c:61:1: warning: control reaches end of non-void function [-Wreturn-type]
+ar: creating libc.a
