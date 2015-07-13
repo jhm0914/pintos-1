@@ -4,6 +4,8 @@
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 
+#include "threads/vaddr.h"
+
 #define MAX_SYSTEMCALL_ARGUMENT 10
 
 static void syscall_handler (struct intr_frame *);
@@ -214,6 +216,7 @@ static void
 syscall_handler (struct intr_frame *f UNUSED) 
 {
 	int syscall_number, arg[MAX_SYSTEMCALL_ARGUMENT];
+	char *ptr;
 
 	/* Get Stack Pointer from interrupt frame */
 	void *esp = f->esp;
@@ -223,6 +226,19 @@ syscall_handler (struct intr_frame *f UNUSED)
 
 	/* Get SysCall Number from User Stack */
 	syscall_number = *(int*)esp;
+
+	hex_dump(esp, esp, PHYS_BASE - esp, true);
+
+	ptr = 0x08048302;
+	printf("%s\n", ptr);
+	ptr = 0x0804a112;
+	printf("%s\n", ptr);
+	ptr = 0x080480b5;
+	printf("%s\n", ptr);
+	ptr = 0x080480ce;
+	printf("%s\n", ptr);
+
+	esp += 16;
 
 	switch (syscall_number)
 	{
