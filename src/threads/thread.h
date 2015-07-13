@@ -115,6 +115,8 @@ struct thread
     int exit_status;					// Exit Status when exit() called
     struct file **fdt;					// File Decriptor Table
     int fd_size;					// fd value's Maximum that exist int current table
+    struct list file_list;				// File List
+    struct file *running_file;				// Running File
     /*************************************************************************************************************/
   };
 

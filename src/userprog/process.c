@@ -18,6 +18,8 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 
+extern struct lock filesys_lock;
+
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
 
@@ -295,6 +297,7 @@ process_exit (void)
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = cur->pagedir;
+  process_close_file(cur->running_file);				// Close the Running File
   if (pd != NULL) 
     {
       /* Correct ordering here is crucial.  We must set
@@ -415,13 +418,20 @@ load (const char *file_name, void (**eip) (void), void **esp)
     goto done;
   process_activate ();
 
+  lock_acquire(&filesys_lock);					// Lock
+
   /* Open executable file. */
   file = filesys_open (file_name);
   if (file == NULL) 
     {
+      lock_release(&filesys_lock);				// UnLock
       printf ("load: %s: open failed\n", file_name);
       goto done; 
     }
+
+  t->running_file = file;					// Init Running File
+  file_deny_write(file);					// Deny write to file
+  lock_release(&filesys_lock);					// UnLock
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr

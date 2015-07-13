@@ -229,15 +229,6 @@ syscall_handler (struct intr_frame *f UNUSED)
 
 	hex_dump(esp, esp, PHYS_BASE - esp, true);
 
-	ptr = 0x08048302;
-	printf("%s\n", ptr);
-	ptr = 0x0804a112;
-	printf("%s\n", ptr);
-	ptr = 0x080480b5;
-	printf("%s\n", ptr);
-	ptr = 0x080480ce;
-	printf("%s\n", ptr);
-
 	esp += 16;
 
 	switch (syscall_number)
