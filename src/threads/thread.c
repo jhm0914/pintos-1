@@ -207,12 +207,15 @@ thread_create (const char *name, int priority,
   intr_set_level (old_level);
 
   /****************************************************************************************/
-  t->parent = thread_current();					// Save Parent Process
-  t->load_success = false;					// Program is not loaded
-  t->exit_success = false;					// Program is not exited
-  sema_init(&t->exit_sema, 0);					// Init exit_sema to 0
-  sema_init(&t->load_sema, 0);					// Init load_sema to 0
-  list_push_back(&t->parent->child_list, &t->child_elem);	// Append to Child List
+  t->parent = thread_current();						// Save Parent Process
+  t->load_success = false;						// Program is not loaded
+  t->exit_success = false;						// Program is not exited
+  sema_init(&t->exit_sema, 0);						// Init exit_sema to 0
+  sema_init(&t->load_sema, 0);						// Init load_sema to 0
+  list_push_back(&t->parent->child_list, &t->child_elem);		// Append to Child List
+
+  t->fd_size = 2;							// Init the fd's value (0 : stdin, 1 : stdout)
+  t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*));	// malloc the Fiel Descriptor Tabele
   /****************************************************************************************/
 
   /* Add to run queue. */

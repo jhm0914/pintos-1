@@ -20,29 +20,73 @@
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
-void argument_stack (char **parse, int count, void **esp);
+
+void process_close_file (int fd);
+struct file *process_get_file (int fd);
+int process_add_file (struct file *f);
 struct thread *get_child_process (int pid);
 void remove_child_process (struct thread *cp);
+void argument_stack (char **parse, int count, void **esp);
 
 /*******************************************************************************************************/
+void process_close_file (int fd)
+{
+	struct file *f = process_get_file(fd);
+
+	if (f != NULL)
+	{
+		file_close(f);
+		thread_current()->fdt[fd] = NULL;
+	}
+}
+struct file *process_get_file(int fd)
+{
+	struct thread *t = thread_current();
+
+	if (t->fd_size <= fd)
+	{
+		return NULL;
+	}
+	return t->fdt[fd];
+}
+int process_add_file (struct file *f)
+{
+	int fd;
+	struct thread *t = thread_current();
+
+	for (fd = 2; t->fd_size; fd++)
+	{
+		if (t->fdt[fd] == NULL)
+		{
+			t->fdt[fd] = f;
+			return fd;
+		}
+	}
+
+	t->fdt = realloc(t->fdt, (++t->fd_size)*sizeof(struct file*));
+	t->fdt[t->fd_size-1] = f;
+	fd = t->fd_size-1;
+
+	return fd;
+}
 struct thread *get_child_process (int pid)
 {
 	struct thread *t = thread_current();
-	struct list_elem *child_elem_ = t->child_list.head.next;
+	struct list_elem *child_elem = t->child_list.head.next;
 	struct list_elem *tail = &t->child_list.tail;
 
 	/* Search the Process Descriptor as access to Child List */
 	do
 	{
-		t = list_entry(child_elem_, struct thread, child_elem);
+		t = list_entry(child_elem, struct thread, child_elem);
 
 		/* If pid is exist, return pid */
 		if (t->tid == pid)
 		{
 			return t;
 		}
-		child_elem_ = child_elem_->next;
-	}while(child_elem_ != tail);
+		child_elem = list_next(child_elem);
+	}while(child_elem != tail);
 
 	/* If pid isn't exist, return NULL */
 	return NULL;
@@ -240,6 +284,13 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
+  int i;
+
+  for (i = 2; i<cur->fd_size; i++)
+  {
+    process_close_file(i);
+  }
+  free(cur->fdt);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */

@@ -70,115 +70,7 @@ int wait(tid_t tid)
 {
 	process_wait(tid);
 }
-int open (const char *file)
-{
-	int fd;
-	struct file *f = filesys_open(file);		// File Open
-	
-	if (f == NULL)
-	{
-		return -1;				// If File isn't exist, Return -1
-	}
 
-	fd = process_add_file(f);			// Give File Descriptor to File Object
-
-	return fd;					// Return File Descriptor
-}
-int filesize (int fd)
-{
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
-
-	if (f == NULL)
-	{
-		return -1;				// If File isn't exist, Return -1
-	}
-
-	return file_length(f);				// Return Length of File
-}
-int read (int fd, void *buffer, unsigned size)
-{
-	struct file *f = process_get_file(fd);
-	char ch, *buffer_ = (char*)buffer;
-	int i = 0;
-
-	lock_acquire(&filesys_lock);			// Lock
-
-	f = process_get_file(fd);			// Search the File Object as use fd
-
-	if (fd == 0)					// If fd == 0, Save Keyboard's Input to buffer and return the size that saved to buffer
-	{
-		for (ch = input_getc(); ch != NULL; ch = input_getc())
-		{
-			buffer_[i++] = ch;
-		}
-
-		lock_release(&filesys_lock);
-
-		return i;
-	}
-	else						// If fd != 0, Return the Bytes after Save Data of File.
-	{
-		if (f == NULL)
-		{
-			lock_release(&filesys_lock);
-			return -1;
-		}
-		else
-		{
-			i = file_read(f, buffer, size);
-			
-			lock_release(&filesys_lock);
-
-			return i;
-		}
-	}
-}
-int write (int fd, void *buffer, unsigned size)
-{
-	struct file *f;
-	int i;
-
-	lock_acquire(&filesys_lock);			// Lock
-	
-	f = process_get_file(fd);			// Search the File Object as use fd
-
-	if (fd == 1)					// If fd == 1, Output the data that saved in buffer, and return size of buffer
-	{
-		putbuf(buffer, size);
-		lock_release(&filesys_lock);
-		return size;
-	}
-	else						// If fd != 1, Record the data that saved in buffer, and return size that recorded
-	{
-		if (f == NULL)
-		{
-			lock_release(&filesys_lock);
-			return -1;
-		}
-		else
-		{
-			i = file_write(f, buffer, size);
-			
-			lock_release(&filesys_lock);
-
-			return i;
-		}
-	}
-}
-void seek (int fd, unsigned position)
-{
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
-	file_seek(f, position);				// seek
-}
-unsigned tell (int fd)
-{
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
-	file_tell(f);					// tell
-}
-void close (int fd)
-{
-	process_close_file(fd);
-}
 
 void check_address (void *addr)
 {
@@ -253,35 +145,18 @@ syscall_handler (struct intr_frame *f UNUSED)
 		f->eax = remove(arg[0]);
 		break;
 	case SYS_OPEN:
-		get_argument(esp, arg, 1);
-		check_address((void*)arg[0]);
-		f->eax = open(arg[0]);
 		break;
 	case SYS_FILESIZE:
-		get_argument(esp, arg, 1);
-		f->eax = filesize(arg[0]);
 		break;
 	case SYS_READ:
-		get_argument(esp, arg, 3);
-		check_address((void*)arg[1]);
-		f->eax = read(arg[0], arg[1], arg[2]);
 		break;
 	case SYS_WRITE:
-		get_argument(esp, arg, 3);
-		check_address((void*)arg[1]);
-		f->eax = write(arg[0], arg[1], arg[2]);
 		break;
 	case SYS_SEEK:
-		get_argument(esp, arg, 2);
-		seek(arg[0], arg[1]);
 		break;
 	case SYS_TELL:
-		get_argument(esp, arg, 1);
-		f->eax = tell(arg[0]);
 		break;
 	case SYS_CLOSE:
-		get_argument(esp, arg, 1);
-		close(arg[0]);
 		break;
 	}
 

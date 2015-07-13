@@ -113,6 +113,8 @@ struct thread
     struct semaphore exit_sema;				// Exit semaphore
     struct semaphore load_sema;				// Load semaphore
     int exit_status;					// Exit Status when exit() called
+    struct file **fdt;					// File Decriptor Table
+    int fd_size;					// fd value's Maximum that exist int current table
     /*************************************************************************************************************/
   };
 
