@@ -18,7 +18,8 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 
-extern struct lock filesys_lock;
+//extern struct lock filesys_lock;
+struct lock process_lock;
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
@@ -116,6 +117,7 @@ void argument_stack(char **parse, int count, void **esp)
 		address[i] = (uint32_t)*esp;
 	}
 
+
 	/* Character Align */
 	for (	temp = esp;
 		((uint32_t)*temp - (sizeof(*address)*count) - sizeof(address) - sizeof(count) - sizeof(ret_address))%0x10 != 0;
@@ -145,6 +147,8 @@ void argument_stack(char **parse, int count, void **esp)
 	ret_address = 0;
 	*esp = *esp - 4;
 	**(uint32_t**)esp = ret_address;
+
+	free(address);
 }
 /*******************************************************************************************************/
 
@@ -222,8 +226,15 @@ start_process (void *file_name_)
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
-  if (!t->load_success) 
+  if (!t->load_success)
+  {
+    for (i = 0; i<argc; i++)
+    {
+      free(argv[i]);
+    }
+    free(argv);
     thread_exit ();
+  }
   
   /* Push Program's argv */
   argument_stack(argv, argc, &if_.esp);
@@ -297,7 +308,7 @@ process_exit (void)
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = cur->pagedir;
-  process_close_file(cur->running_file);				// Close the Running File
+  //file_close(cur->running_file);					// Close the Running File
   if (pd != NULL) 
     {
       /* Correct ordering here is crucial.  We must set
@@ -418,20 +429,21 @@ load (const char *file_name, void (**eip) (void), void **esp)
     goto done;
   process_activate ();
 
-  lock_acquire(&filesys_lock);					// Lock
+  //lock_init(&process_lock);
+  //lock_acquire(&process_lock);					// Lock
 
   /* Open executable file. */
   file = filesys_open (file_name);
   if (file == NULL) 
     {
-      lock_release(&filesys_lock);				// UnLock
+      //lock_release(&process_lock);				// UnLock
       printf ("load: %s: open failed\n", file_name);
       goto done; 
     }
 
-  t->running_file = file;					// Init Running File
-  file_deny_write(file);					// Deny write to file
-  lock_release(&filesys_lock);					// UnLock
+  //t->running_file = file;					// Init Running File
+  //file_deny_write(file);					// Deny write to file
+  //lock_release(&process_lock);					// UnLock
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr

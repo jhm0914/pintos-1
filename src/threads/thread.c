@@ -216,6 +216,7 @@ thread_create (const char *name, int priority,
 
   t->fd_size = 2;							// Init the fd's value (0 : stdin, 1 : stdout)
   t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*));	// malloc the Fiel Descriptor Tabele
+  t->running_file = NULL;
   /****************************************************************************************/
 
   /* Add to run queue. */
