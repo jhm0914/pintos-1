@@ -172,6 +172,7 @@ thread_create (const char *name, int priority,
   struct switch_threads_frame *sf;
   tid_t tid;
   enum intr_level old_level;
+  int i;
 
   ASSERT (function != NULL);
 
@@ -214,8 +215,13 @@ thread_create (const char *name, int priority,
   sema_init(&t->load_sema, 0);						// Init load_sema to 0
   list_push_back(&t->parent->child_list, &t->child_elem);		// Append to Child List
 
-  t->fd_size = 2;							// Init the fd's value (0 : stdin, 1 : stdout)
-  t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*));	// malloc the Fiel Descriptor Tabele
+  t->fd_size = 10;							// Init the fd's value (0 : stdin, 1 : stdout)
+  t->fdt = (struct file**)malloc(10*sizeof(struct file*));		// malloc the Fiel Descriptor Tabele
+  for (i = 0; i<10; i++)
+  {
+    t->fdt[i] = NULL;
+  }
+
   t->running_file = NULL;
   /****************************************************************************************/
 

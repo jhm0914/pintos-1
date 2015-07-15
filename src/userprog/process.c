@@ -66,9 +66,10 @@ int process_add_file (struct file *f)
 		}
 	}
 
-	t->fdt = realloc(t->fdt, (++t->fd_size)*sizeof(struct file*));
-	t->fdt[t->fd_size-1] = f;
-	fd = t->fd_size-1;
+	t->fdt = realloc(t->fdt, (t->fd_size*2)*sizeof(struct file*));
+	t->fdt[t->fd_size] = f;
+	fd = t->fd_size;
+	t->fd_size = t->fd_size*2;
 
 	return fd;
 }
@@ -79,7 +80,7 @@ struct thread *get_child_process (int pid)
 	struct list_elem *tail = &t->child_list.tail;
 
 	/* Search the Process Descriptor as access to Child List */
-	do
+	while (child_elem != tail)
 	{
 		t = list_entry(child_elem, struct thread, child_elem);
 
@@ -89,7 +90,7 @@ struct thread *get_child_process (int pid)
 			return t;
 		}
 		child_elem = list_next(child_elem);
-	}while(child_elem != tail);
+	}
 
 	/* If pid isn't exist, return NULL */
 	return NULL;

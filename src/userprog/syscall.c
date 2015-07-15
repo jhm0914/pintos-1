@@ -114,7 +114,6 @@ int read (int fd, void *buffer, unsigned size)
 			buffer_[i++] = ch;
 		}
 
-		strlcpy(buffer, buffer_, strlen(buffer_)+1);
 		lock_release(&filesys_lock);
 
 		return i;
