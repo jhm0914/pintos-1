@@ -114,6 +114,7 @@ int read (int fd, void *buffer, unsigned size)
 			buffer_[i++] = ch;
 		}
 
+		strlcpy(buffer, buffer_, strlen(buffer_)+1);
 		lock_release(&filesys_lock);
 
 		return i;
@@ -175,7 +176,7 @@ void seek (int fd, unsigned position)
 unsigned tell (int fd)
 {
 	struct file *f = process_get_file(fd);		// Search the File Object as use fd
-	file_tell(f);					// tell
+	return file_tell(f);				// tell
 }
 void close (int fd)
 {
@@ -229,7 +230,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 
 	//hex_dump(f->esp, f->esp, PHYS_BASE - f->esp, true);
 
-	printf("-------------------------------------- %d\n", syscall_number);
+	//printf("-------------------------------------- %d\n", syscall_number);
 
 	switch (syscall_number)
 	{
@@ -238,68 +239,68 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_EXIT:
 		get_argument(esp+8, arg, 1);
-		printf("a %d : \n", arg[0]);
+		//printf("a %d : \n", arg[0]);
 		exit(arg[0]);
 		break;
 	case SYS_EXEC:
 		get_argument(esp+8, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = exec((const char *)arg[0]);
-		printf("a %s : %d\n", arg[0], f->eax);
+		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_WAIT:
 		get_argument(esp+8, arg, 1);
 		f->eax = wait(arg[0]);
-		printf("a %d : %d\n", arg[0], f->eax);
+		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
 	case SYS_CREATE:
 		get_argument(esp+12, arg, 2);
 		check_address((void*)arg[0]);
 		f->eax = create(arg[0], arg[1]);
-		printf("a %s %d : %d\n", arg[0], arg[1], f->eax);
+		//printf("a %s %d : %d\n", arg[0], arg[1], f->eax);
 		break;
 	case SYS_REMOVE:
 		get_argument(esp+8, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = remove(arg[0]);
-		printf("a %s : %d\n", arg[0], f->eax);
+		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_OPEN:
 		get_argument(esp+8, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = open(arg[0]);
-		printf("a %s : %d\n", arg[0], f->eax);
+		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_FILESIZE:
 		get_argument(esp+8, arg, 1);
 		f->eax = filesize(arg[0]);
-		printf("a %d : %d\n", arg[0], f->eax);
+		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
 	case SYS_READ:
 		get_argument(esp+16, arg, 3);
 		check_address((void*)arg[1]);
 		f->eax = read(arg[0], arg[1], arg[2]);
-		printf("a %d %d : %d\n", arg[0], arg[2], f->eax);
+		//printf("a %d %d : %d\n", arg[0], arg[2], f->eax);
 		break;
 	case SYS_WRITE:
 		get_argument(esp+16, arg, 3);
 		check_address((void*)arg[1]);
 		f->eax = write(arg[0], arg[1], arg[2]);
-		printf("a %d %s %d : %d\n", arg[0], arg[1], arg[2], f->eax);
+		//printf("a %d %s %d : %d\n", arg[0], arg[1], arg[2], f->eax);
 		break;
 	case SYS_SEEK:
 		get_argument(esp+12, arg, 2);
 		seek(arg[0], arg[1]);
-		printf("a %d %d : \n", arg[0], arg[1]);
+		//printf("a %d %d : \n", arg[0], arg[1]);
 		break;
 	case SYS_TELL:
 		get_argument(esp+8, arg, 1);
 		f->eax = tell(arg[0]);
-		printf("a %d : %d\n", arg[0], arg[1]);
+		//printf("a %d : %d\n", arg[0], arg[1]);
 		break;
 	case SYS_CLOSE:
 		get_argument(esp+8, arg, 1);
-		printf("a %d : \n", arg[0]);
+		//printf("a %d : \n", arg[0]);
 		close(arg[0]);
 		break;
 	default:

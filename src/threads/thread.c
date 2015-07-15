@@ -315,15 +315,13 @@ thread_exit (void)
   list_remove (&thread_current()->allelem);
   
   /***************************************************************/
-  t->exit_success = true;
-  sema_up(&t->exit_sema);
+  t->exit_success = true;		// Inform the Process's exit to pd
+  sema_up(&t->exit_sema);		// Continue Parent Process
   /***************************************************************/
 
   t->status = THREAD_DYING;
   schedule ();
-  NOT_REACHED ();
-
-  
+  NOT_REACHED (); 
 }
 
 /* Yields the CPU.  The current thread is not put to sleep and
@@ -566,7 +564,7 @@ thread_schedule_tail (struct thread *prev)
   if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread) 
     {
       ASSERT (prev != cur);
-      //palloc_free_page (prev);
+     //palloc_free_page (prev);
     }
 }
 
