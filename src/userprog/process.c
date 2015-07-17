@@ -44,7 +44,7 @@ struct file *process_get_file(int fd)
 {
 	struct thread *t = thread_current();
 
-	if (t->fd_size <= fd)
+	if (fd < 1 || t->fd_size <= fd)
 	{
 		return NULL;
 	}
@@ -118,15 +118,7 @@ void argument_stack(char **parse, int count, void **esp)
 
 
 	/* Character Align */
-	for (	temp = esp;
-		((uint32_t)*temp - (sizeof(*address)*count) - sizeof(address) - sizeof(count) - sizeof(ret_address))%0x10 != 0;
-		temp = esp													)
-	{
-		*esp = *esp - 1;
-		**(uint8_t**)esp = 0;
-	}
-	/**esp = *esp - 4;
-	**(uint32_t**)esp = 0;*/
+	*esp = *esp - 4;
 	for (	temp = esp;
 		((uint32_t)*temp)%4 != 0;
 		temp = esp			)

@@ -188,7 +188,7 @@ void check_address (void *addr)
 
 	if (!(0x8048000 < address && address < 0xc0000000))
 	{
-		printf("Invalid Memory Access : %p\n", address);
+		//printf("Invalid Memory Access : %p\n", address);
 		exit(-1);
 	}
 }

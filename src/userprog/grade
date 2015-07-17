@@ -102,8 +102,8 @@ Executing 'args-none':
 (args) end
 args-none: exit(0)
 Execution of 'args-none' complete.
-Timer: 287 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 36 user ticks
+Timer: 286 ticks
+Thread: 41 idle ticks, 213 kernel ticks, 35 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
 Console: 941 characters output
@@ -260,85 +260,24 @@ Executing 'args-many a b c d e f g h i j k l m n o p q r s t u v':
 (args) argv[20] = 't'
 (args) argv[21] = 'u'
 (args) argv[22] = 'v'
-PAGE FAULT!!!
-args-many: exit(-1)
+(args) argv[23] = null
+(args) end
+args-many: exit(0)
 Execution of 'args-many a b c d e f g h i j k l m n o p q r s t u v' complete.
-Timer: 370 ticks
-Thread: 41 idle ticks, 229 kernel ticks, 103 user ticks
+Timer: 373 ticks
+Thread: 41 idle ticks, 230 kernel ticks, 105 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 1534 characters output
+Console: 1553 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off..========================================================================
                        Bochs x86 Emulator 2.6.8
                 Built from SVN snapshot on May 3, 2015
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/args-many.ck tests/userprog/args-many tests/userprog/args-many.result
-FAIL tests/userprog/args-many
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (args) begin
-  (args) argc = 23
-  (args) argv[0] = 'args-many'
-  (args) argv[1] = 'a'
-  (args) argv[2] = 'b'
-  (args) argv[3] = 'c'
-  (args) argv[4] = 'd'
-  (args) argv[5] = 'e'
-  (args) argv[6] = 'f'
-  (args) argv[7] = 'g'
-  (args) argv[8] = 'h'
-  (args) argv[9] = 'i'
-  (args) argv[10] = 'j'
-  (args) argv[11] = 'k'
-  (args) argv[12] = 'l'
-  (args) argv[13] = 'm'
-  (args) argv[14] = 'n'
-  (args) argv[15] = 'o'
-  (args) argv[16] = 'p'
-  (args) argv[17] = 'q'
-  (args) argv[18] = 'r'
-  (args) argv[19] = 's'
-  (args) argv[20] = 't'
-  (args) argv[21] = 'u'
-  (args) argv[22] = 'v'
-  (args) argv[23] = null
-  (args) end
-  args-many: exit(0)
-Differences in `diff -u' format:
-  (args) begin
-  (args) argc = 23
-  (args) argv[0] = 'args-many'
-  (args) argv[1] = 'a'
-  (args) argv[2] = 'b'
-  (args) argv[3] = 'c'
-  (args) argv[4] = 'd'
-  (args) argv[5] = 'e'
-  (args) argv[6] = 'f'
-  (args) argv[7] = 'g'
-  (args) argv[8] = 'h'
-  (args) argv[9] = 'i'
-  (args) argv[10] = 'j'
-  (args) argv[11] = 'k'
-  (args) argv[12] = 'l'
-  (args) argv[13] = 'm'
-  (args) argv[14] = 'n'
-  (args) argv[15] = 'o'
-  (args) argv[16] = 'p'
-  (args) argv[17] = 'q'
-  (args) argv[18] = 'r'
-  (args) argv[19] = 's'
-  (args) argv[20] = 't'
-  (args) argv[21] = 'u'
-  (args) argv[22] = 'v'
-- (args) argv[23] = null
-- (args) end
-- args-many: exit(0)
-+ PAGE FAULT!!!
-+ args-many: exit(-1)
+pass tests/userprog/args-many
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-dbl-space
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/args-dbl-space -a args-dbl-space -- -q    -f run 'args-dbl-space two  spaces!' < /dev/null 2> tests/userprog/args-dbl-space.errors |tee tests/userprog/args-dbl-space.output
 Copying tests/userprog/args-dbl-space to scratch partition...
@@ -413,14 +352,13 @@ Putting 'sc-bad-sp' into the file system...
 Erasing ustar archive...
 Executing 'sc-bad-sp':
 (sc-bad-sp) begin
-Invalid Memory Access : 0x40480a3
 sc-bad-sp: exit(-1)
 Execution of 'sc-bad-sp' complete.
-Timer: 281 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 30 user ticks
+Timer: 277 ticks
+Thread: 41 idle ticks, 213 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 903 characters output
+Console: 869 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -429,16 +367,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/sc-bad-sp.ck tests/userprog/sc-bad-sp tests/userprog/sc-bad-sp.result
-FAIL tests/userprog/sc-bad-sp
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (sc-bad-sp) begin
-  sc-bad-sp: exit(-1)
-Differences in `diff -u' format:
-  (sc-bad-sp) begin
-+ Invalid Memory Access : 0x40480a3
-  sc-bad-sp: exit(-1)
+pass tests/userprog/sc-bad-sp
 gcc -c ../../tests/userprog/sc-bad-arg.c -o tests/userprog/sc-bad-arg.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/sc-bad-arg.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/sc-bad-arg.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/sc-bad-arg
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/sc-bad-arg -a sc-bad-arg -- -q    -f run sc-bad-arg < /dev/null 2> tests/userprog/sc-bad-arg.errors |tee tests/userprog/sc-bad-arg.output
@@ -465,14 +394,13 @@ Putting 'sc-bad-arg' into the file system...
 Erasing ustar archive...
 Executing 'sc-bad-arg':
 (sc-bad-arg) begin
-Invalid Memory Access : 0xc0000000
 sc-bad-arg: exit(-1)
 Execution of 'sc-bad-arg' complete.
-Timer: 282 ticks
-Thread: 43 idle ticks, 212 kernel ticks, 30 user ticks
+Timer: 278 ticks
+Thread: 43 idle ticks, 212 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 188 writes
 hda3 (scratch): 91 reads, 2 writes
-Console: 910 characters output
+Console: 875 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -481,16 +409,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/sc-bad-arg.ck tests/userprog/sc-bad-arg tests/userprog/sc-bad-arg.result
-FAIL tests/userprog/sc-bad-arg
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (sc-bad-arg) begin
-  sc-bad-arg: exit(-1)
-Differences in `diff -u' format:
-  (sc-bad-arg) begin
-+ Invalid Memory Access : 0xc0000000
-  sc-bad-arg: exit(-1)
+pass tests/userprog/sc-bad-arg
 gcc -c ../../tests/userprog/sc-boundary.c -o tests/userprog/sc-boundary.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/sc-boundary.d
 gcc -c ../../tests/userprog/boundary.c -o tests/userprog/boundary.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/boundary.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/sc-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/sc-boundary
@@ -772,14 +691,13 @@ Putting 'create-null' into the file system...
 Erasing ustar archive...
 Executing 'create-null':
 (create-null) begin
-Invalid Memory Access : 0
 create-null: exit(-1)
 Execution of 'create-null' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 29 user ticks
+Timer: 278 ticks
+Thread: 42 idle ticks, 212 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 907 characters output
+Console: 881 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -788,16 +706,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/create-null.ck tests/userprog/create-null tests/userprog/create-null.result
-FAIL tests/userprog/create-null
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (create-null) begin
-  create-null: exit(-1)
-Differences in `diff -u' format:
-  (create-null) begin
-+ Invalid Memory Access : 0
-  create-null: exit(-1)
+pass tests/userprog/create-null
 gcc -c ../../tests/userprog/create-bad-ptr.c -o tests/userprog/create-bad-ptr.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/create-bad-ptr.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-bad-ptr
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/create-bad-ptr -a create-bad-ptr -- -q    -f run create-bad-ptr < /dev/null 2> tests/userprog/create-bad-ptr.errors |tee tests/userprog/create-bad-ptr.output
@@ -824,14 +733,13 @@ Putting 'create-bad-ptr' into the file system...
 Erasing ustar archive...
 Executing 'create-bad-ptr':
 (create-bad-ptr) begin
-PAGE FAULT!!!
 create-bad-ptr: exit(-1)
 Execution of 'create-bad-ptr' complete.
-Timer: 282 ticks
-Thread: 40 idle ticks, 213 kernel ticks, 31 user ticks
+Timer: 280 ticks
+Thread: 40 idle ticks, 213 kernel ticks, 29 user ticks
 hda2 (filesys): 64 reads, 189 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 913 characters output
+Console: 899 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -840,16 +748,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/create-bad-ptr.ck tests/userprog/create-bad-ptr tests/userprog/create-bad-ptr.result
-FAIL tests/userprog/create-bad-ptr
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (create-bad-ptr) begin
-  create-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (create-bad-ptr) begin
-+ PAGE FAULT!!!
-  create-bad-ptr: exit(-1)
+pass tests/userprog/create-bad-ptr
 gcc -c ../../tests/userprog/create-long.c -o tests/userprog/create-long.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/create-long.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-long.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-long
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/create-long -a create-long -- -q    -f run create-long < /dev/null 2> tests/userprog/create-long.errors |tee tests/userprog/create-long.output
@@ -1189,14 +1088,13 @@ Putting 'open-null' into the file system...
 Erasing ustar archive...
 Executing 'open-null':
 (open-null) begin
-Invalid Memory Access : 0
 open-null: exit(-1)
 Execution of 'open-null' complete.
-Timer: 280 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 29 user ticks
+Timer: 277 ticks
+Thread: 41 idle ticks, 212 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 895 characters output
+Console: 869 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -1205,26 +1103,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/open-null.ck tests/userprog/open-null tests/userprog/open-null.result
-FAIL tests/userprog/open-null
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (open-null) begin
-  (open-null) end
-  open-null: exit(0)
-Differences in `diff -u' format:
-  (open-null) begin
-- (open-null) end
-- open-null: exit(0)
-+ Invalid Memory Access : 0
-+ open-null: exit(-1)
-Acceptable output:
-  (open-null) begin
-  open-null: exit(-1)
-Differences in `diff -u' format:
-  (open-null) begin
-+ Invalid Memory Access : 0
-  open-null: exit(-1)
+pass tests/userprog/open-null
 gcc -c ../../tests/userprog/open-bad-ptr.c -o tests/userprog/open-bad-ptr.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/open-bad-ptr.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-bad-ptr
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/open-bad-ptr -a open-bad-ptr -- -q    -f run open-bad-ptr < /dev/null 2> tests/userprog/open-bad-ptr.errors |tee tests/userprog/open-bad-ptr.output
@@ -1251,14 +1130,13 @@ Putting 'open-bad-ptr' into the file system...
 Erasing ustar archive...
 Executing 'open-bad-ptr':
 (open-bad-ptr) begin
-PAGE FAULT!!!
 open-bad-ptr: exit(-1)
 Execution of 'open-bad-ptr' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
+Timer: 277 ticks
+Thread: 42 idle ticks, 211 kernel ticks, 27 user ticks
 hda2 (filesys): 65 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 901 characters output
+Console: 887 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -1267,26 +1145,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/open-bad-ptr.ck tests/userprog/open-bad-ptr tests/userprog/open-bad-ptr.result
-FAIL tests/userprog/open-bad-ptr
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (open-bad-ptr) begin
-  open-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (open-bad-ptr) begin
-+ PAGE FAULT!!!
-  open-bad-ptr: exit(-1)
-Acceptable output:
-  (open-bad-ptr) begin
-  (open-bad-ptr) end
-  open-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (open-bad-ptr) begin
-- (open-bad-ptr) end
-- open-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ open-bad-ptr: exit(-1)
+pass tests/userprog/open-bad-ptr
 gcc -c ../../tests/userprog/open-twice.c -o tests/userprog/open-twice.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/open-twice.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-twice.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-twice
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/open-twice -a open-twice -p ../../tests/userprog/sample.txt -a sample.txt -- -q    -f run open-twice < /dev/null 2> tests/userprog/open-twice.errors |tee tests/userprog/open-twice.output
@@ -1635,14 +1494,13 @@ Erasing ustar archive...
 Executing 'read-bad-ptr':
 (read-bad-ptr) begin
 (read-bad-ptr) open "sample.txt"
-Invalid Memory Access : 0xc0100000
 read-bad-ptr: exit(-1)
 Execution of 'read-bad-ptr' complete.
-Timer: 315 ticks
-Thread: 45 idle ticks, 233 kernel ticks, 39 user ticks
+Timer: 311 ticks
+Thread: 45 idle ticks, 234 kernel ticks, 34 user ticks
 hda2 (filesys): 92 reads, 194 writes
 hda3 (scratch): 93 reads, 2 writes
-Console: 1000 characters output
+Console: 965 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -1651,30 +1509,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/read-bad-ptr.ck tests/userprog/read-bad-ptr tests/userprog/read-bad-ptr.result
-FAIL tests/userprog/read-bad-ptr
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  read-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-+ Invalid Memory Access : 0xc0100000
-  read-bad-ptr: exit(-1)
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  (read-bad-ptr) end
-  read-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-- (read-bad-ptr) end
-- read-bad-ptr: exit(0)
-+ Invalid Memory Access : 0xc0100000
-+ read-bad-ptr: exit(-1)
+pass tests/userprog/read-bad-ptr
 gcc -c ../../tests/userprog/read-boundary.c -o tests/userprog/read-boundary.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/read-boundary.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-boundary
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/read-boundary -a read-boundary -p ../../tests/userprog/sample.txt -a sample.txt -- -q    -f run read-boundary < /dev/null 2> tests/userprog/read-boundary.errors |tee tests/userprog/read-boundary.output
@@ -1929,14 +1764,13 @@ Erasing ustar archive...
 Executing 'write-bad-ptr':
 (write-bad-ptr) begin
 (write-bad-ptr) open "sample.txt"
-PAGE FAULT!!!
 write-bad-ptr: exit(-1)
 Execution of 'write-bad-ptr' complete.
-Timer: 314 ticks
-Thread: 46 idle ticks, 233 kernel ticks, 37 user ticks
+Timer: 311 ticks
+Thread: 46 idle ticks, 233 kernel ticks, 35 user ticks
 hda2 (filesys): 93 reads, 194 writes
 hda3 (scratch): 93 reads, 2 writes
-Console: 986 characters output
+Console: 972 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -1945,30 +1779,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/write-bad-ptr.ck tests/userprog/write-bad-ptr tests/userprog/write-bad-ptr.result
-FAIL tests/userprog/write-bad-ptr
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-  (write-bad-ptr) end
-  write-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-- (write-bad-ptr) end
-- write-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ write-bad-ptr: exit(-1)
-Acceptable output:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-  write-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-+ PAGE FAULT!!!
-  write-bad-ptr: exit(-1)
+pass tests/userprog/write-bad-ptr
 gcc -c ../../tests/userprog/write-boundary.c -o tests/userprog/write-boundary.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/write-boundary.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-boundary
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/write-boundary -a write-boundary -p ../../tests/userprog/sample.txt -a sample.txt -- -q    -f run write-boundary < /dev/null 2> tests/userprog/write-boundary.errors |tee tests/userprog/write-boundary.output
@@ -2130,42 +1941,23 @@ Putting 'write-bad-fd' into the file system...
 Erasing ustar archive...
 Executing 'write-bad-fd':
 (write-bad-fd) begin
-PAGE FAULT!!!
-write-bad-fd: exit(-1)
+(write-bad-fd) end
+write-bad-fd: exit(0)
 Execution of 'write-bad-fd' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 214 kernel ticks, 28 user ticks
+Timer: 282 ticks
+Thread: 42 idle ticks, 214 kernel ticks, 29 user ticks
 hda2 (filesys): 65 reads, 188 writes
 hda3 (scratch): 91 reads, 2 writes
-Console: 901 characters output
+Console: 905 characters output
 Keyboard: 0 keys pressed
-Exception: 1 page faults
+Exception: 0 page faults
 Powering off..========================================================================
                        Bochs x86 Emulator 2.6.8
                 Built from SVN snapshot on May 3, 2015
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/write-bad-fd.ck tests/userprog/write-bad-fd tests/userprog/write-bad-fd.result
-FAIL tests/userprog/write-bad-fd
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (write-bad-fd) begin
-  (write-bad-fd) end
-  write-bad-fd: exit(0)
-Differences in `diff -u' format:
-  (write-bad-fd) begin
-- (write-bad-fd) end
-- write-bad-fd: exit(0)
-+ PAGE FAULT!!!
-+ write-bad-fd: exit(-1)
-Acceptable output:
-  (write-bad-fd) begin
-  write-bad-fd: exit(-1)
-Differences in `diff -u' format:
-  (write-bad-fd) begin
-+ PAGE FAULT!!!
-  write-bad-fd: exit(-1)
+pass tests/userprog/write-bad-fd
 gcc -c ../../tests/userprog/exec-once.c -o tests/userprog/exec-once.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/exec-once.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-once.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-once
 gcc -c ../../tests/userprog/child-simple.c -o tests/userprog/child-simple.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/child-simple.d
@@ -2392,14 +2184,13 @@ Putting 'exec-bad-ptr' into the file system...
 Erasing ustar archive...
 Executing 'exec-bad-ptr':
 (exec-bad-ptr) begin
-PAGE FAULT!!!
 exec-bad-ptr: exit(-1)
 Execution of 'exec-bad-ptr' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 28 user ticks
+Timer: 278 ticks
+Thread: 42 idle ticks, 213 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 901 characters output
+Console: 887 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -2408,26 +2199,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/exec-bad-ptr.ck tests/userprog/exec-bad-ptr tests/userprog/exec-bad-ptr.result
-FAIL tests/userprog/exec-bad-ptr
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (exec-bad-ptr) begin
-  exec-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (exec-bad-ptr) begin
-+ PAGE FAULT!!!
-  exec-bad-ptr: exit(-1)
-Acceptable output:
-  (exec-bad-ptr) begin
-  (exec-bad-ptr) end
-  exec-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (exec-bad-ptr) begin
-- (exec-bad-ptr) end
-- exec-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ exec-bad-ptr: exit(-1)
+pass tests/userprog/exec-bad-ptr
 gcc -c ../../tests/userprog/wait-simple.c -o tests/userprog/wait-simple.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/wait-simple.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-simple.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-simple
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/wait-simple -a wait-simple -p tests/userprog/child-simple -a child-simple -- -q    -f run wait-simple < /dev/null 2> tests/userprog/wait-simple.errors |tee tests/userprog/wait-simple.output
@@ -2556,17 +2328,16 @@ Erasing ustar archive...
 Executing 'wait-killed':
 (wait-killed) begin
 (child-bad) begin
-PAGE FAULT!!!
 child-bad: exit(-1)
 (wait-killed) wait(exec()) = -1
 (wait-killed) end
 wait-killed: exit(0)
 Execution of 'wait-killed' complete.
-Timer: 441 ticks
-Thread: 81 idle ticks, 295 kernel ticks, 67 user ticks
+Timer: 438 ticks
+Thread: 81 idle ticks, 295 kernel ticks, 65 user ticks
 hda2 (filesys): 126 reads, 366 writes
 hda3 (scratch): 179 reads, 2 writes
-Console: 1029 characters output
+Console: 1015 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -2575,24 +2346,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/wait-killed.ck tests/userprog/wait-killed tests/userprog/wait-killed.result
-FAIL tests/userprog/wait-killed
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (wait-killed) begin
-  (child-bad) begin
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-Differences in `diff -u' format:
-  (wait-killed) begin
-  (child-bad) begin
-+ PAGE FAULT!!!
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
+pass tests/userprog/wait-killed
 gcc -c ../../tests/userprog/wait-bad-pid.c -o tests/userprog/wait-bad-pid.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/wait-bad-pid.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-bad-pid.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-bad-pid
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/wait-bad-pid -a wait-bad-pid -- -q    -f run wait-bad-pid < /dev/null 2> tests/userprog/wait-bad-pid.errors |tee tests/userprog/wait-bad-pid.output
@@ -2725,7 +2479,7 @@ multi-recurse: exit(14)
 (multi-recurse) end 15
 multi-recurse: exit(15)
 Execution of 'multi-recurse 15' complete.
-Timer: 1183 ticks
+Timer: 1182 ticks
 Thread: 45 idle ticks, 490 kernel ticks, 650 user ticks
 hda2 (filesys): 571 reads, 208 writes
 hda3 (scratch): 101 reads, 2 writes
@@ -2962,8 +2716,8 @@ child-rox: exit(12)
 (rox-multichild) end
 rox-multichild: exit(0)
 Execution of 'rox-multichild' complete.
-Timer: 759 ticks
-Thread: 87 idle ticks, 375 kernel ticks, 300 user ticks
+Timer: 758 ticks
+Thread: 88 idle ticks, 374 kernel ticks, 299 user ticks
 hda2 (filesys): 302 reads, 398 writes
 hda3 (scratch): 194 reads, 2 writes
 Console: 1905 characters output
@@ -3002,14 +2756,13 @@ Putting 'bad-read' into the file system...
 Erasing ustar archive...
 Executing 'bad-read':
 (bad-read) begin
-PAGE FAULT!!!
 bad-read: exit(-1)
 Execution of 'bad-read' complete.
-Timer: 279 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 27 user ticks
+Timer: 277 ticks
+Thread: 42 idle ticks, 213 kernel ticks, 25 user ticks
 hda2 (filesys): 63 reads, 188 writes
 hda3 (scratch): 91 reads, 2 writes
-Console: 877 characters output
+Console: 863 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3018,18 +2771,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-read.ck tests/userprog/bad-read tests/userprog/bad-read.result
-FAIL tests/userprog/bad-read
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-read) begin
-  bad-read: exit(-1)
-Differences in `diff -u' format:
-  (bad-read) begin
-+ PAGE FAULT!!!
-  bad-read: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-read
 gcc -c ../../tests/userprog/bad-write.c -o tests/userprog/bad-write.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/bad-write.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-write.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-write
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/bad-write -a bad-write -- -q    -f run bad-write < /dev/null 2> tests/userprog/bad-write.errors |tee tests/userprog/bad-write.output
@@ -3056,14 +2798,13 @@ Putting 'bad-write' into the file system...
 Erasing ustar archive...
 Executing 'bad-write':
 (bad-write) begin
-PAGE FAULT!!!
 bad-write: exit(-1)
 Execution of 'bad-write' complete.
-Timer: 279 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 28 user ticks
+Timer: 277 ticks
+Thread: 41 idle ticks, 213 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 883 characters output
+Console: 869 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3072,18 +2813,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-write.ck tests/userprog/bad-write tests/userprog/bad-write.result
-FAIL tests/userprog/bad-write
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-write) begin
-  bad-write: exit(-1)
-Differences in `diff -u' format:
-  (bad-write) begin
-+ PAGE FAULT!!!
-  bad-write: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-write
 gcc -c ../../tests/userprog/bad-read2.c -o tests/userprog/bad-read2.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/bad-read2.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-read2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-read2
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/bad-read2 -a bad-read2 -- -q    -f run bad-read2 < /dev/null 2> tests/userprog/bad-read2.errors |tee tests/userprog/bad-read2.output
@@ -3110,14 +2840,13 @@ Putting 'bad-read2' into the file system...
 Erasing ustar archive...
 Executing 'bad-read2':
 (bad-read2) begin
-PAGE FAULT!!!
 bad-read2: exit(-1)
 Execution of 'bad-read2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
+Timer: 278 ticks
+Thread: 42 idle ticks, 211 kernel ticks, 27 user ticks
 hda2 (filesys): 63 reads, 188 writes
 hda3 (scratch): 91 reads, 2 writes
-Console: 883 characters output
+Console: 869 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3126,18 +2855,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-read2.ck tests/userprog/bad-read2 tests/userprog/bad-read2.result
-FAIL tests/userprog/bad-read2
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-read2) begin
-  bad-read2: exit(-1)
-Differences in `diff -u' format:
-  (bad-read2) begin
-+ PAGE FAULT!!!
-  bad-read2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-read2
 gcc -c ../../tests/userprog/bad-write2.c -o tests/userprog/bad-write2.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/bad-write2.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-write2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-write2
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/bad-write2 -a bad-write2 -- -q    -f run bad-write2 < /dev/null 2> tests/userprog/bad-write2.errors |tee tests/userprog/bad-write2.output
@@ -3164,14 +2882,13 @@ Putting 'bad-write2' into the file system...
 Erasing ustar archive...
 Executing 'bad-write2':
 (bad-write2) begin
-PAGE FAULT!!!
 bad-write2: exit(-1)
 Execution of 'bad-write2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
+Timer: 277 ticks
+Thread: 42 idle ticks, 212 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 889 characters output
+Console: 875 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3180,18 +2897,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-write2.ck tests/userprog/bad-write2 tests/userprog/bad-write2.result
-FAIL tests/userprog/bad-write2
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-write2) begin
-  bad-write2: exit(-1)
-Differences in `diff -u' format:
-  (bad-write2) begin
-+ PAGE FAULT!!!
-  bad-write2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-write2
 gcc -c ../../tests/userprog/bad-jump.c -o tests/userprog/bad-jump.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/bad-jump.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-jump.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-jump
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/bad-jump -a bad-jump -- -q    -f run bad-jump < /dev/null 2> tests/userprog/bad-jump.errors |tee tests/userprog/bad-jump.output
@@ -3218,14 +2924,13 @@ Putting 'bad-jump' into the file system...
 Erasing ustar archive...
 Executing 'bad-jump':
 (bad-jump) begin
-PAGE FAULT!!!
 bad-jump: exit(-1)
 Execution of 'bad-jump' complete.
-Timer: 279 ticks
-Thread: 41 idle ticks, 212 kernel ticks, 28 user ticks
+Timer: 277 ticks
+Thread: 41 idle ticks, 212 kernel ticks, 26 user ticks
 hda2 (filesys): 63 reads, 186 writes
 hda3 (scratch): 90 reads, 2 writes
-Console: 877 characters output
+Console: 863 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3234,18 +2939,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-jump.ck tests/userprog/bad-jump tests/userprog/bad-jump.result
-FAIL tests/userprog/bad-jump
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-jump) begin
-  bad-jump: exit(-1)
-Differences in `diff -u' format:
-  (bad-jump) begin
-+ PAGE FAULT!!!
-  bad-jump: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-jump
 gcc -c ../../tests/userprog/bad-jump2.c -o tests/userprog/bad-jump2.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/bad-jump2.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-jump2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-jump2
 pintos -v -k -T 60 --bochs  --filesys-size=2 -p tests/userprog/bad-jump2 -a bad-jump2 -- -q    -f run bad-jump2 < /dev/null 2> tests/userprog/bad-jump2.errors |tee tests/userprog/bad-jump2.output
@@ -3272,14 +2966,13 @@ Putting 'bad-jump2' into the file system...
 Erasing ustar archive...
 Executing 'bad-jump2':
 (bad-jump2) begin
-PAGE FAULT!!!
 bad-jump2: exit(-1)
 Execution of 'bad-jump2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
+Timer: 278 ticks
+Thread: 42 idle ticks, 211 kernel ticks, 27 user ticks
 hda2 (filesys): 63 reads, 188 writes
 hda3 (scratch): 91 reads, 2 writes
-Console: 883 characters output
+Console: 869 characters output
 Keyboard: 0 keys pressed
 Exception: 1 page faults
 Powering off..========================================================================
@@ -3288,18 +2981,7 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/userprog/bad-jump2.ck tests/userprog/bad-jump2 tests/userprog/bad-jump2.result
-FAIL tests/userprog/bad-jump2
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-jump2) begin
-  bad-jump2: exit(-1)
-Differences in `diff -u' format:
-  (bad-jump2) begin
-+ PAGE FAULT!!!
-  bad-jump2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
+pass tests/userprog/bad-jump2
 gcc -c ../../tests/userprog/no-vm/multi-oom.c -o tests/userprog/no-vm/multi-oom.o -g -msoft-float -O -fno-stack-protector -nostdinc -I../.. -I../../lib -I../../lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/userprog/no-vm/multi-oom.d
 gcc  -Wl,--build-id=none -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/no-vm/multi-oom.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/no-vm/multi-oom
 pintos -v -k -T 360 --bochs  --filesys-size=2 -p tests/userprog/no-vm/multi-oom -a multi-oom -- -q    -f run multi-oom < /dev/null 2> tests/userprog/no-vm/multi-oom.errors |tee tests/userprog/no-vm/multi-oom.output
@@ -3326,17 +3008,11 @@ Putting 'multi-oom' into the file system...
 Erasing ustar archive...
 Executing 'multi-oom':
 (multi-oom) begin
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
 Kernel PANIC at ../../threads/malloc.c:246 in free(): assertion `a->free_cnt == d->blocks_per_arena' failed.
 Call stack: 0xc002866e 0 0.
@@ -3344,16 +3020,12 @@ The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
 Kernel PANIC recursion at ../../threads/synch.c:197 in lock_acquire().
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
-multi-oom: exit(-1PiLo hda1
+multi-oom: exit(-1)
+msÀùPiLo hda1
 Loading..........
 Kernel command line: -q -f extract run multi-oom
 Pintos booting with 4,096 kB RAM...
@@ -3524,7 +3196,7 @@ Executing 'lg-random':
 lg-random: exit(0)
 Execution of 'lg-random' complete.
 Timer: 688 ticks
-Thread: 47 idle ticks, 248 kernel ticks, 395 user ticks
+Thread: 51 idle ticks, 249 kernel ticks, 391 user ticks
 hda2 (filesys): 233 reads, 502 writes
 hda3 (scratch): 96 reads, 2 writes
 Console: 1052 characters output
@@ -3573,8 +3245,8 @@ Executing 'lg-seq-block':
 (lg-seq-block) end
 lg-seq-block: exit(0)
 Execution of 'lg-seq-block' complete.
-Timer: 825 ticks
-Thread: 43 idle ticks, 246 kernel ticks, 539 user ticks
+Timer: 826 ticks
+Thread: 43 idle ticks, 246 kernel ticks, 540 user ticks
 hda2 (filesys): 535 reads, 641 writes
 hda3 (scratch): 94 reads, 2 writes
 Console: 1150 characters output
@@ -3769,7 +3441,7 @@ Executing 'sm-random':
 sm-random: exit(0)
 Execution of 'sm-random' complete.
 Timer: 487 ticks
-Thread: 44 idle ticks, 215 kernel ticks, 230 user ticks
+Thread: 43 idle ticks, 216 kernel ticks, 230 user ticks
 hda2 (filesys): 335 reads, 332 writes
 hda3 (scratch): 96 reads, 2 writes
 Console: 1052 characters output
@@ -3818,8 +3490,8 @@ Executing 'sm-seq-block':
 (sm-seq-block) end
 sm-seq-block: exit(0)
 Execution of 'sm-seq-block' complete.
-Timer: 371 ticks
-Thread: 43 idle ticks, 217 kernel ticks, 114 user ticks
+Timer: 370 ticks
+Thread: 43 idle ticks, 217 kernel ticks, 113 user ticks
 hda2 (filesys): 127 reads, 233 writes
 hda3 (scratch): 94 reads, 2 writes
 Console: 1150 characters output
@@ -3920,37 +3592,37 @@ Executing 'syn-read':
 (syn-read) exec child 2 of 10: "child-syn-read 1"
 (syn-read) exec child 3 of 10: "child-syn-read 2"
 (syn-read) exec child 4 of 10: "child-syn-read 3"
+child-syn-read: exit(0)
 (syn-read) exec child 5 of 10: "child-syn-read 4"
+child-syn-read: exit(2)
 (syn-read) exec child 6 of 10: "child-syn-read 5"
 (syn-read) exec child 7 of 10: "child-syn-read 6"
 (syn-read) exec child 8 of 10: "child-syn-read 7"
 (syn-read) exec child 9 of 10: "child-syn-read 8"
 (syn-read) exec child 10 of 10: "child-syn-read 9"
-child-syn-read: exit(0)
 (syn-read) wait for child 1 of 10 returned 0 (expected 0)
-child-syn-read: exit(4)
-child-syn-read: exit(2)
-child-syn-read: exit(1)
 child-syn-read: exit(3)
+child-syn-read: exit(4)
+child-syn-read: exit(5)
+child-syn-read: exit(6)
+child-syn-read: exit(1)
 (syn-read) wait for child 2 of 10 returned 1 (expected 1)
 (syn-read) wait for child 3 of 10 returned 2 (expected 2)
 (syn-read) wait for child 4 of 10 returned 3 (expected 3)
 (syn-read) wait for child 5 of 10 returned 4 (expected 4)
-child-syn-read: exit(8)
-child-syn-read: exit(7)
-child-syn-read: exit(6)
-child-syn-read: exit(5)
-child-syn-read: exit(9)
 (syn-read) wait for child 6 of 10 returned 5 (expected 5)
 (syn-read) wait for child 7 of 10 returned 6 (expected 6)
+child-syn-read: exit(8)
+child-syn-read: exit(7)
+child-syn-read: exit(9)
 (syn-read) wait for child 8 of 10 returned 7 (expected 7)
 (syn-read) wait for child 9 of 10 returned 8 (expected 8)
 (syn-read) wait for child 10 of 10 returned 9 (expected 9)
 (syn-read) end
 syn-read: exit(0)
 Execution of 'syn-read' complete.
-Timer: 6988 ticks
-Thread: 92 idle ticks, 464 kernel ticks, 6435 user ticks
+Timer: 6917 ticks
+Thread: 90 idle ticks, 463 kernel ticks, 6367 user ticks
 hda2 (filesys): 10762 reads, 414 writes
 hda3 (scratch): 199 reads, 2 writes
 Console: 2353 characters output
@@ -4058,18 +3730,28 @@ child-syn-wrt: exit(3)
 ((null)) open "stuff": FAILED
 child-syn-wrt: exit(1)
 (syn-write) exec child 7 of 10: "child-syn-wrt 6"
-(syn-write) exec child 8 of 10: "child-syn-wrt 7"
 child-syn-wrt: exit(5)
-load: child-syn-wrt: open failed
-child-syn-wrt: exit(6)
-(syn-write) exec child 8 of 10: "child-syn-wrt 7": FAILED
+(syn-write) exec child 8 of 10: "child-syn-wrt 7"
+((null)) open "stuff": FAILED
+child-syn-wrt: exit(1)
+(syn-write) exec child 9 of 10: "child-syn-wrt 8"
+child-syn-wrt: exit(7)
+(syn-write) exec child 10 of 10: "child-syn-wrt 9"
+child-syn-wrt: exit(8)
+(syn-write) wait for child 1 of 10 returned 0 (expected 0)
+(syn-write) wait for child 2 of 10 returned 1 (expected 1)
+(syn-write) wait for child 3 of 10 returned 2 (expected 2)
+child-syn-wrt: exit(9)
+(syn-write) wait for child 4 of 10 returned 3 (expected 3)
+(syn-write) wait for child 5 of 10 returned 1 (expected 4)
+(syn-write) wait for child 5 of 10 returned 1 (expected 4): FAILED
 syn-write: exit(1)
 Execution of 'syn-write' complete.
-Timer: 911 ticks
-Thread: 84 idle ticks, 447 kernel ticks, 382 user ticks
-hda2 (filesys): 388 reads, 423 writes
+Timer: 1133 ticks
+Thread: 85 idle ticks, 508 kernel ticks, 542 user ticks
+hda2 (filesys): 508 reads, 425 writes
 hda3 (scratch): 198 reads, 2 writes
-Console: 1659 characters output
+Console: 2131 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -4081,7 +3763,7 @@ perl -I../.. ../../tests/filesys/base/syn-write.ck tests/filesys/base/syn-write 
 FAIL tests/filesys/base/syn-write
 run: ((null)) open "stuff": FAILED
 ../../tests/make-grade ../.. results ../../tests/userprog/Grading | tee grade
-TOTAL TESTING SCORE: 74.2%
+TOTAL TESTING SCORE: 86.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -4089,12 +3771,12 @@ SUMMARY BY TEST SET
 
 Test Set                                      Pts Max  % Ttl  % Max
 --------------------------------------------- --- --- ------ ------
-tests/userprog/Rubric.functionality           105/108  34.0%/ 35.0%
-tests/userprog/Rubric.robustness               50/ 88  14.2%/ 25.0%
+tests/userprog/Rubric.functionality           108/108  35.0%/ 35.0%
+tests/userprog/Rubric.robustness               88/ 88  25.0%/ 25.0%
 tests/userprog/no-vm/Rubric                     0/  1   0.0%/ 10.0%
 tests/filesys/base/Rubric                      26/ 30  26.0%/ 30.0%
 --------------------------------------------- --- --- ------ ------
-Total                                                  74.2%/100.0%
+Total                                                  86.0%/100.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -4105,7 +3787,7 @@ Functionality of system calls (tests/userprog/Rubric.functionality):
 	     3/ 3 tests/userprog/args-none
 	     3/ 3 tests/userprog/args-single
 	     3/ 3 tests/userprog/args-multiple
-	  ** 0/ 3 tests/userprog/args-many
+	     3/ 3 tests/userprog/args-many
 	     3/ 3 tests/userprog/args-dbl-space
 
 	- Test "create" system call.
@@ -4154,8 +3836,8 @@ Functionality of system calls (tests/userprog/Rubric.functionality):
 	     3/ 3 tests/userprog/rox-multichild
 
 	- Section summary.
-	     27/ 28 tests passed
-	    105/108 points subtotal
+	     28/ 28 tests passed
+	    108/108 points subtotal
 
 Robustness of system calls (tests/userprog/Rubric.robustness):
 	- Test robustness of file descriptor handling.
@@ -4165,16 +3847,16 @@ Robustness of system calls (tests/userprog/Rubric.robustness):
 	     2/ 2 tests/userprog/close-twice
 	     2/ 2 tests/userprog/read-bad-fd
 	     2/ 2 tests/userprog/read-stdout
-	  ** 0/ 2 tests/userprog/write-bad-fd
+	     2/ 2 tests/userprog/write-bad-fd
 	     2/ 2 tests/userprog/write-stdin
 	     2/ 2 tests/userprog/multi-child-fd
 
 	- Test robustness of pointer handling.
-	  ** 0/ 3 tests/userprog/create-bad-ptr
-	  ** 0/ 3 tests/userprog/exec-bad-ptr
-	  ** 0/ 3 tests/userprog/open-bad-ptr
-	  ** 0/ 3 tests/userprog/read-bad-ptr
-	  ** 0/ 3 tests/userprog/write-bad-ptr
+	     3/ 3 tests/userprog/create-bad-ptr
+	     3/ 3 tests/userprog/exec-bad-ptr
+	     3/ 3 tests/userprog/open-bad-ptr
+	     3/ 3 tests/userprog/read-bad-ptr
+	     3/ 3 tests/userprog/write-bad-ptr
 
 	- Test robustness of buffer copying across page boundaries.
 	     3/ 3 tests/userprog/create-bound
@@ -4183,32 +3865,32 @@ Robustness of system calls (tests/userprog/Rubric.robustness):
 	     3/ 3 tests/userprog/write-boundary
 
 	- Test handling of null pointer and empty strings.
-	  ** 0/ 2 tests/userprog/create-null
-	  ** 0/ 2 tests/userprog/open-null
+	     2/ 2 tests/userprog/create-null
+	     2/ 2 tests/userprog/open-null
 	     2/ 2 tests/userprog/open-empty
 
 	- Test robustness of system call implementation.
-	  ** 0/ 3 tests/userprog/sc-bad-arg
-	  ** 0/ 3 tests/userprog/sc-bad-sp
+	     3/ 3 tests/userprog/sc-bad-arg
+	     3/ 3 tests/userprog/sc-bad-sp
 	     5/ 5 tests/userprog/sc-boundary
 	     5/ 5 tests/userprog/sc-boundary-2
 
 	- Test robustness of "exec" and "wait" system calls.
 	     5/ 5 tests/userprog/exec-missing
 	     5/ 5 tests/userprog/wait-bad-pid
-	  ** 0/ 5 tests/userprog/wait-killed
+	     5/ 5 tests/userprog/wait-killed
 
 	- Test robustness of exception handling.
-	  ** 0/ 1 tests/userprog/bad-read
-	  ** 0/ 1 tests/userprog/bad-write
-	  ** 0/ 1 tests/userprog/bad-jump
-	  ** 0/ 1 tests/userprog/bad-read2
-	  ** 0/ 1 tests/userprog/bad-write2
-	  ** 0/ 1 tests/userprog/bad-jump2
+	     1/ 1 tests/userprog/bad-read
+	     1/ 1 tests/userprog/bad-write
+	     1/ 1 tests/userprog/bad-jump
+	     1/ 1 tests/userprog/bad-read2
+	     1/ 1 tests/userprog/bad-write2
+	     1/ 1 tests/userprog/bad-jump2
 
 	- Section summary.
-	     17/ 34 tests passed
-	     50/ 88 points subtotal
+	     34/ 34 tests passed
+	     88/ 88 points subtotal
 
 Functionality of features that VM might break (tests/userprog/no-vm/Rubric):
 
@@ -4245,1173 +3927,6 @@ Functionality of base file system (tests/filesys/base/Rubric):
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/userprog/args-many FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (args) begin
-  (args) argc = 23
-  (args) argv[0] = 'args-many'
-  (args) argv[1] = 'a'
-  (args) argv[2] = 'b'
-  (args) argv[3] = 'c'
-  (args) argv[4] = 'd'
-  (args) argv[5] = 'e'
-  (args) argv[6] = 'f'
-  (args) argv[7] = 'g'
-  (args) argv[8] = 'h'
-  (args) argv[9] = 'i'
-  (args) argv[10] = 'j'
-  (args) argv[11] = 'k'
-  (args) argv[12] = 'l'
-  (args) argv[13] = 'm'
-  (args) argv[14] = 'n'
-  (args) argv[15] = 'o'
-  (args) argv[16] = 'p'
-  (args) argv[17] = 'q'
-  (args) argv[18] = 'r'
-  (args) argv[19] = 's'
-  (args) argv[20] = 't'
-  (args) argv[21] = 'u'
-  (args) argv[22] = 'v'
-  (args) argv[23] = null
-  (args) end
-  args-many: exit(0)
-Differences in `diff -u' format:
-  (args) begin
-  (args) argc = 23
-  (args) argv[0] = 'args-many'
-  (args) argv[1] = 'a'
-  (args) argv[2] = 'b'
-  (args) argv[3] = 'c'
-  (args) argv[4] = 'd'
-  (args) argv[5] = 'e'
-  (args) argv[6] = 'f'
-  (args) argv[7] = 'g'
-  (args) argv[8] = 'h'
-  (args) argv[9] = 'i'
-  (args) argv[10] = 'j'
-  (args) argv[11] = 'k'
-  (args) argv[12] = 'l'
-  (args) argv[13] = 'm'
-  (args) argv[14] = 'n'
-  (args) argv[15] = 'o'
-  (args) argv[16] = 'p'
-  (args) argv[17] = 'q'
-  (args) argv[18] = 'r'
-  (args) argv[19] = 's'
-  (args) argv[20] = 't'
-  (args) argv[21] = 'u'
-  (args) argv[22] = 'v'
-- (args) argv[23] = null
-- (args) end
-- args-many: exit(0)
-+ PAGE FAULT!!!
-+ args-many: exit(-1)
-
-OUTPUT FROM tests/userprog/args-many:
-
-Copying tests/userprog/args-many to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run 'args-many a b c d e f g h i j k l m n o p q r s t u v'
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'args-many' into the file system...
-Erasing ustar archive...
-Executing 'args-many a b c d e f g h i j k l m n o p q r s t u v':
-(args) begin
-(args) argc = 23
-(args) argv[0] = 'args-many'
-(args) argv[1] = 'a'
-(args) argv[2] = 'b'
-(args) argv[3] = 'c'
-(args) argv[4] = 'd'
-(args) argv[5] = 'e'
-(args) argv[6] = 'f'
-(args) argv[7] = 'g'
-(args) argv[8] = 'h'
-(args) argv[9] = 'i'
-(args) argv[10] = 'j'
-(args) argv[11] = 'k'
-(args) argv[12] = 'l'
-(args) argv[13] = 'm'
-(args) argv[14] = 'n'
-(args) argv[15] = 'o'
-(args) argv[16] = 'p'
-(args) argv[17] = 'q'
-(args) argv[18] = 'r'
-(args) argv[19] = 's'
-(args) argv[20] = 't'
-(args) argv[21] = 'u'
-(args) argv[22] = 'v'
-PAGE FAULT!!!
-args-many: exit(-1)
-Execution of 'args-many a b c d e f g h i j k l m n o p q r s t u v' complete.
-Timer: 370 ticks
-Thread: 41 idle ticks, 229 kernel ticks, 103 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 1534 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/write-bad-fd FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (write-bad-fd) begin
-  (write-bad-fd) end
-  write-bad-fd: exit(0)
-Differences in `diff -u' format:
-  (write-bad-fd) begin
-- (write-bad-fd) end
-- write-bad-fd: exit(0)
-+ PAGE FAULT!!!
-+ write-bad-fd: exit(-1)
-Acceptable output:
-  (write-bad-fd) begin
-  write-bad-fd: exit(-1)
-Differences in `diff -u' format:
-  (write-bad-fd) begin
-+ PAGE FAULT!!!
-  write-bad-fd: exit(-1)
-
-OUTPUT FROM tests/userprog/write-bad-fd:
-
-Copying tests/userprog/write-bad-fd to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run write-bad-fd
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 92 sectors (46 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'write-bad-fd' into the file system...
-Erasing ustar archive...
-Executing 'write-bad-fd':
-(write-bad-fd) begin
-PAGE FAULT!!!
-write-bad-fd: exit(-1)
-Execution of 'write-bad-fd' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 214 kernel ticks, 28 user ticks
-hda2 (filesys): 65 reads, 188 writes
-hda3 (scratch): 91 reads, 2 writes
-Console: 901 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/create-bad-ptr FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (create-bad-ptr) begin
-  create-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (create-bad-ptr) begin
-+ PAGE FAULT!!!
-  create-bad-ptr: exit(-1)
-
-OUTPUT FROM tests/userprog/create-bad-ptr:
-
-Copying tests/userprog/create-bad-ptr to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run create-bad-ptr
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'create-bad-ptr' into the file system...
-Erasing ustar archive...
-Executing 'create-bad-ptr':
-(create-bad-ptr) begin
-PAGE FAULT!!!
-create-bad-ptr: exit(-1)
-Execution of 'create-bad-ptr' complete.
-Timer: 282 ticks
-Thread: 40 idle ticks, 213 kernel ticks, 31 user ticks
-hda2 (filesys): 64 reads, 189 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 913 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/exec-bad-ptr FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (exec-bad-ptr) begin
-  exec-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (exec-bad-ptr) begin
-+ PAGE FAULT!!!
-  exec-bad-ptr: exit(-1)
-Acceptable output:
-  (exec-bad-ptr) begin
-  (exec-bad-ptr) end
-  exec-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (exec-bad-ptr) begin
-- (exec-bad-ptr) end
-- exec-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ exec-bad-ptr: exit(-1)
-
-OUTPUT FROM tests/userprog/exec-bad-ptr:
-
-Copying tests/userprog/exec-bad-ptr to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run exec-bad-ptr
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'exec-bad-ptr' into the file system...
-Erasing ustar archive...
-Executing 'exec-bad-ptr':
-(exec-bad-ptr) begin
-PAGE FAULT!!!
-exec-bad-ptr: exit(-1)
-Execution of 'exec-bad-ptr' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 28 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 901 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/open-bad-ptr FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (open-bad-ptr) begin
-  open-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (open-bad-ptr) begin
-+ PAGE FAULT!!!
-  open-bad-ptr: exit(-1)
-Acceptable output:
-  (open-bad-ptr) begin
-  (open-bad-ptr) end
-  open-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (open-bad-ptr) begin
-- (open-bad-ptr) end
-- open-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ open-bad-ptr: exit(-1)
-
-OUTPUT FROM tests/userprog/open-bad-ptr:
-
-Copying tests/userprog/open-bad-ptr to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run open-bad-ptr
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'open-bad-ptr' into the file system...
-Erasing ustar archive...
-Executing 'open-bad-ptr':
-(open-bad-ptr) begin
-PAGE FAULT!!!
-open-bad-ptr: exit(-1)
-Execution of 'open-bad-ptr' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
-hda2 (filesys): 65 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 901 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/read-bad-ptr FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  read-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-+ Invalid Memory Access : 0xc0100000
-  read-bad-ptr: exit(-1)
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  (read-bad-ptr) end
-  read-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-- (read-bad-ptr) end
-- read-bad-ptr: exit(0)
-+ Invalid Memory Access : 0xc0100000
-+ read-bad-ptr: exit(-1)
-
-OUTPUT FROM tests/userprog/read-bad-ptr:
-
-Copying tests/userprog/read-bad-ptr to scratch partition...
-Copying ../../tests/userprog/sample.txt to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run read-bad-ptr
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 94 sectors (47 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'read-bad-ptr' into the file system...
-Putting 'sample.txt' into the file system...
-Erasing ustar archive...
-Executing 'read-bad-ptr':
-(read-bad-ptr) begin
-(read-bad-ptr) open "sample.txt"
-Invalid Memory Access : 0xc0100000
-read-bad-ptr: exit(-1)
-Execution of 'read-bad-ptr' complete.
-Timer: 315 ticks
-Thread: 45 idle ticks, 233 kernel ticks, 39 user ticks
-hda2 (filesys): 92 reads, 194 writes
-hda3 (scratch): 93 reads, 2 writes
-Console: 1000 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/write-bad-ptr FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-  (write-bad-ptr) end
-  write-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-- (write-bad-ptr) end
-- write-bad-ptr: exit(0)
-+ PAGE FAULT!!!
-+ write-bad-ptr: exit(-1)
-Acceptable output:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-  write-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (write-bad-ptr) begin
-  (write-bad-ptr) open "sample.txt"
-+ PAGE FAULT!!!
-  write-bad-ptr: exit(-1)
-
-OUTPUT FROM tests/userprog/write-bad-ptr:
-
-Copying tests/userprog/write-bad-ptr to scratch partition...
-Copying ../../tests/userprog/sample.txt to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run write-bad-ptr
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 94 sectors (47 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'write-bad-ptr' into the file system...
-Putting 'sample.txt' into the file system...
-Erasing ustar archive...
-Executing 'write-bad-ptr':
-(write-bad-ptr) begin
-(write-bad-ptr) open "sample.txt"
-PAGE FAULT!!!
-write-bad-ptr: exit(-1)
-Execution of 'write-bad-ptr' complete.
-Timer: 314 ticks
-Thread: 46 idle ticks, 233 kernel ticks, 37 user ticks
-hda2 (filesys): 93 reads, 194 writes
-hda3 (scratch): 93 reads, 2 writes
-Console: 986 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/create-null FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (create-null) begin
-  create-null: exit(-1)
-Differences in `diff -u' format:
-  (create-null) begin
-+ Invalid Memory Access : 0
-  create-null: exit(-1)
-
-OUTPUT FROM tests/userprog/create-null:
-
-Copying tests/userprog/create-null to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run create-null
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'create-null' into the file system...
-Erasing ustar archive...
-Executing 'create-null':
-(create-null) begin
-Invalid Memory Access : 0
-create-null: exit(-1)
-Execution of 'create-null' complete.
-Timer: 281 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 29 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 907 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/open-null FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (open-null) begin
-  (open-null) end
-  open-null: exit(0)
-Differences in `diff -u' format:
-  (open-null) begin
-- (open-null) end
-- open-null: exit(0)
-+ Invalid Memory Access : 0
-+ open-null: exit(-1)
-Acceptable output:
-  (open-null) begin
-  open-null: exit(-1)
-Differences in `diff -u' format:
-  (open-null) begin
-+ Invalid Memory Access : 0
-  open-null: exit(-1)
-
-OUTPUT FROM tests/userprog/open-null:
-
-Copying tests/userprog/open-null to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run open-null
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'open-null' into the file system...
-Erasing ustar archive...
-Executing 'open-null':
-(open-null) begin
-Invalid Memory Access : 0
-open-null: exit(-1)
-Execution of 'open-null' complete.
-Timer: 280 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 29 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 895 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/sc-bad-arg FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (sc-bad-arg) begin
-  sc-bad-arg: exit(-1)
-Differences in `diff -u' format:
-  (sc-bad-arg) begin
-+ Invalid Memory Access : 0xc0000000
-  sc-bad-arg: exit(-1)
-
-OUTPUT FROM tests/userprog/sc-bad-arg:
-
-Copying tests/userprog/sc-bad-arg to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run sc-bad-arg
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 92 sectors (46 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'sc-bad-arg' into the file system...
-Erasing ustar archive...
-Executing 'sc-bad-arg':
-(sc-bad-arg) begin
-Invalid Memory Access : 0xc0000000
-sc-bad-arg: exit(-1)
-Execution of 'sc-bad-arg' complete.
-Timer: 282 ticks
-Thread: 43 idle ticks, 212 kernel ticks, 30 user ticks
-hda2 (filesys): 63 reads, 188 writes
-hda3 (scratch): 91 reads, 2 writes
-Console: 910 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/sc-bad-sp FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (sc-bad-sp) begin
-  sc-bad-sp: exit(-1)
-Differences in `diff -u' format:
-  (sc-bad-sp) begin
-+ Invalid Memory Access : 0x40480a3
-  sc-bad-sp: exit(-1)
-
-OUTPUT FROM tests/userprog/sc-bad-sp:
-
-Copying tests/userprog/sc-bad-sp to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run sc-bad-sp
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'sc-bad-sp' into the file system...
-Erasing ustar archive...
-Executing 'sc-bad-sp':
-(sc-bad-sp) begin
-Invalid Memory Access : 0x40480a3
-sc-bad-sp: exit(-1)
-Execution of 'sc-bad-sp' complete.
-Timer: 281 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 30 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 903 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/wait-killed FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (wait-killed) begin
-  (child-bad) begin
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-Differences in `diff -u' format:
-  (wait-killed) begin
-  (child-bad) begin
-+ PAGE FAULT!!!
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-
-OUTPUT FROM tests/userprog/wait-killed:
-
-Copying tests/userprog/wait-killed to scratch partition...
-Copying tests/userprog/child-bad to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run wait-killed
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 180 sectors (90 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'wait-killed' into the file system...
-Putting 'child-bad' into the file system...
-Erasing ustar archive...
-Executing 'wait-killed':
-(wait-killed) begin
-(child-bad) begin
-PAGE FAULT!!!
-child-bad: exit(-1)
-(wait-killed) wait(exec()) = -1
-(wait-killed) end
-wait-killed: exit(0)
-Execution of 'wait-killed' complete.
-Timer: 441 ticks
-Thread: 81 idle ticks, 295 kernel ticks, 67 user ticks
-hda2 (filesys): 126 reads, 366 writes
-hda3 (scratch): 179 reads, 2 writes
-Console: 1029 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-read FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-read) begin
-  bad-read: exit(-1)
-Differences in `diff -u' format:
-  (bad-read) begin
-+ PAGE FAULT!!!
-  bad-read: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-read:
-
-Copying tests/userprog/bad-read to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-read
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 92 sectors (46 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-read' into the file system...
-Erasing ustar archive...
-Executing 'bad-read':
-(bad-read) begin
-PAGE FAULT!!!
-bad-read: exit(-1)
-Execution of 'bad-read' complete.
-Timer: 279 ticks
-Thread: 42 idle ticks, 213 kernel ticks, 27 user ticks
-hda2 (filesys): 63 reads, 188 writes
-hda3 (scratch): 91 reads, 2 writes
-Console: 877 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-write FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-write) begin
-  bad-write: exit(-1)
-Differences in `diff -u' format:
-  (bad-write) begin
-+ PAGE FAULT!!!
-  bad-write: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-write:
-
-Copying tests/userprog/bad-write to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-write
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-write' into the file system...
-Erasing ustar archive...
-Executing 'bad-write':
-(bad-write) begin
-PAGE FAULT!!!
-bad-write: exit(-1)
-Execution of 'bad-write' complete.
-Timer: 279 ticks
-Thread: 41 idle ticks, 213 kernel ticks, 28 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 883 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-jump FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-jump) begin
-  bad-jump: exit(-1)
-Differences in `diff -u' format:
-  (bad-jump) begin
-+ PAGE FAULT!!!
-  bad-jump: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-jump:
-
-Copying tests/userprog/bad-jump to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-jump
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-jump' into the file system...
-Erasing ustar archive...
-Executing 'bad-jump':
-(bad-jump) begin
-PAGE FAULT!!!
-bad-jump: exit(-1)
-Execution of 'bad-jump' complete.
-Timer: 279 ticks
-Thread: 41 idle ticks, 212 kernel ticks, 28 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 877 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-read2 FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-read2) begin
-  bad-read2: exit(-1)
-Differences in `diff -u' format:
-  (bad-read2) begin
-+ PAGE FAULT!!!
-  bad-read2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-read2:
-
-Copying tests/userprog/bad-read2 to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-read2
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 92 sectors (46 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-read2' into the file system...
-Erasing ustar archive...
-Executing 'bad-read2':
-(bad-read2) begin
-PAGE FAULT!!!
-bad-read2: exit(-1)
-Execution of 'bad-read2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
-hda2 (filesys): 63 reads, 188 writes
-hda3 (scratch): 91 reads, 2 writes
-Console: 883 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-write2 FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-write2) begin
-  bad-write2: exit(-1)
-Differences in `diff -u' format:
-  (bad-write2) begin
-+ PAGE FAULT!!!
-  bad-write2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-write2:
-
-Copying tests/userprog/bad-write2 to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-write2
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 91 sectors (45 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-write2' into the file system...
-Erasing ustar archive...
-Executing 'bad-write2':
-(bad-write2) begin
-PAGE FAULT!!!
-bad-write2: exit(-1)
-Execution of 'bad-write2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
-hda2 (filesys): 63 reads, 186 writes
-hda3 (scratch): 90 reads, 2 writes
-Console: 889 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/bad-jump2 FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (bad-jump2) begin
-  bad-jump2: exit(-1)
-Differences in `diff -u' format:
-  (bad-jump2) begin
-+ PAGE FAULT!!!
-  bad-jump2: exit(-1)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/userprog/bad-jump2:
-
-Copying tests/userprog/bad-jump2 to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run bad-jump2
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 92 sectors (46 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'bad-jump2' into the file system...
-Erasing ustar archive...
-Executing 'bad-jump2':
-(bad-jump2) begin
-PAGE FAULT!!!
-bad-jump2: exit(-1)
-Execution of 'bad-jump2' complete.
-Timer: 280 ticks
-Thread: 42 idle ticks, 211 kernel ticks, 29 user ticks
-hda2 (filesys): 63 reads, 188 writes
-hda3 (scratch): 91 reads, 2 writes
-Console: 883 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/userprog/no-vm/multi-oom FAILURE:
 
 Kernel panic in run: PANIC at ../../threads/malloc.c:246 in free(): assertion `a->free_cnt == d->blocks_per_arena' failed.
@@ -5444,17 +3959,11 @@ Putting 'multi-oom' into the file system...
 Erasing ustar archive...
 Executing 'multi-oom':
 (multi-oom) begin
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-Invalid Memory Access : 0xc0000000
 multi-oom: exit(-1)
 Kernel PANIC at ../../threads/malloc.c:246 in free(): assertion `a->free_cnt == d->blocks_per_arena' failed.
 Call stack: 0xc002866e 0 0.
@@ -5462,16 +3971,12 @@ The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
 Kernel PANIC recursion at ../../threads/synch.c:197 in lock_acquire().
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
 multi-oom: exit(-1)
-PAGE FAULT!!!
-multi-oom: exit(-1PiLo hda1
+multi-oom: exit(-1)
+msÀùPiLo hda1
 Loading..........
 Kernel command line: -q -f extract run multi-oom
 Pintos booting with 4,096 kB RAM...
@@ -5525,18 +4030,28 @@ child-syn-wrt: exit(3)
 ((null)) open "stuff": FAILED
 child-syn-wrt: exit(1)
 (syn-write) exec child 7 of 10: "child-syn-wrt 6"
-(syn-write) exec child 8 of 10: "child-syn-wrt 7"
 child-syn-wrt: exit(5)
-load: child-syn-wrt: open failed
-child-syn-wrt: exit(6)
-(syn-write) exec child 8 of 10: "child-syn-wrt 7": FAILED
+(syn-write) exec child 8 of 10: "child-syn-wrt 7"
+((null)) open "stuff": FAILED
+child-syn-wrt: exit(1)
+(syn-write) exec child 9 of 10: "child-syn-wrt 8"
+child-syn-wrt: exit(7)
+(syn-write) exec child 10 of 10: "child-syn-wrt 9"
+child-syn-wrt: exit(8)
+(syn-write) wait for child 1 of 10 returned 0 (expected 0)
+(syn-write) wait for child 2 of 10 returned 1 (expected 1)
+(syn-write) wait for child 3 of 10 returned 2 (expected 2)
+child-syn-wrt: exit(9)
+(syn-write) wait for child 4 of 10 returned 3 (expected 3)
+(syn-write) wait for child 5 of 10 returned 1 (expected 4)
+(syn-write) wait for child 5 of 10 returned 1 (expected 4): FAILED
 syn-write: exit(1)
 Execution of 'syn-write' complete.
-Timer: 911 ticks
-Thread: 84 idle ticks, 447 kernel ticks, 382 user ticks
-hda2 (filesys): 388 reads, 423 writes
+Timer: 1133 ticks
+Thread: 85 idle ticks, 508 kernel ticks, 542 user ticks
+hda2 (filesys): 508 reads, 425 writes
 hda3 (scratch): 198 reads, 2 writes
-Console: 1659 characters output
+Console: 2131 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================

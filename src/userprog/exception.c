@@ -149,7 +149,6 @@ page_fault (struct intr_frame *f)
   user = (f->error_code & PF_U) != 0;
 
   /*******************************************************************/
-  printf("PAGE FAULT!!!\n");
   exit(-1);				// exit the process when occur page fault
   /*******************************************************************/
 
