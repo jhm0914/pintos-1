@@ -118,15 +118,22 @@ void argument_stack(char **parse, int count, void **esp)
 
 
 	/* Character Align */
-	/*for (	temp = esp;
+	for (	temp = esp;
 		((uint32_t)*temp - (sizeof(*address)*count) - sizeof(address) - sizeof(count) - sizeof(ret_address))%0x10 != 0;
 		temp = esp													)
 	{
 		*esp = *esp - 1;
 		**(uint8_t**)esp = 0;
-	}*/
-	*esp = *esp - 4;
-	**(uint32_t**)esp = 0;
+	}
+	/**esp = *esp - 4;
+	**(uint32_t**)esp = 0;*/
+	for (	temp = esp;
+		((uint32_t)*temp)%4 != 0;
+		temp = esp			)
+	{
+		*esp = *esp - 1;
+		**(uint8_t**)esp = 0;
+	}
 
 	/* Push Addresses */
 	for (i = count - 1; i>-1; i--)
@@ -247,7 +254,7 @@ start_process (void *file_name_)
   }
   free(argv);
 
-  hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
+  //hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
