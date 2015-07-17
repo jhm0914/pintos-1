@@ -8,6 +8,7 @@
 #include "userprog/gdt.h"
 #include "userprog/pagedir.h"
 #include "userprog/tss.h"
+#include "userprog/syscall.h"
 #include "filesys/directory.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
@@ -17,9 +18,6 @@
 #include "threads/palloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
-
-//extern struct lock filesys_lock;
-struct lock process_lock;
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
@@ -76,8 +74,8 @@ int process_add_file (struct file *f)
 struct thread *get_child_process (int pid)
 {
 	struct thread *t = thread_current();
-	struct list_elem *child_elem = t->child_list.head.next;
-	struct list_elem *tail = &t->child_list.tail;
+	struct list_elem *child_elem = list_begin(&t->child_list);
+	struct list_elem *tail = list_tail(&t->child_list);
 
 	/* Search the Process Descriptor as access to Child List */
 	while (child_elem != tail)
@@ -120,13 +118,15 @@ void argument_stack(char **parse, int count, void **esp)
 
 
 	/* Character Align */
-	for (	temp = esp;
+	/*for (	temp = esp;
 		((uint32_t)*temp - (sizeof(*address)*count) - sizeof(address) - sizeof(count) - sizeof(ret_address))%0x10 != 0;
 		temp = esp													)
 	{
 		*esp = *esp - 1;
 		**(uint8_t**)esp = 0;
-	}
+	}*/
+	*esp = *esp - 4;
+	**(uint32_t**)esp = 0;
 
 	/* Push Addresses */
 	for (i = count - 1; i>-1; i--)
@@ -300,16 +300,25 @@ process_exit (void)
   uint32_t *pd;
   int i;
 
+  /*************************************************/
   for (i = 2; i<cur->fd_size; i++)
   {
     process_close_file(i);
   }
   free(cur->fdt);
+  /*************************************************/
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = cur->pagedir;
-  //file_close(cur->running_file);					// Close the Running File
+
+  /************************************************************************************************/
+  if (cur->running_file != NULL)
+  {
+    file_close(cur->running_file);					// Close the Running File
+  }
+  /************************************************************************************************/
+
   if (pd != NULL) 
     {
       /* Correct ordering here is crucial.  We must set
@@ -430,21 +439,18 @@ load (const char *file_name, void (**eip) (void), void **esp)
     goto done;
   process_activate ();
 
-  //lock_init(&process_lock);
-  //lock_acquire(&process_lock);					// Lock
+  lock_acquire(&filesys_lock);					// Lock
 
   /* Open executable file. */
   file = filesys_open (file_name);
   if (file == NULL) 
     {
-      //lock_release(&process_lock);				// UnLock
       printf ("load: %s: open failed\n", file_name);
       goto done; 
     }
 
-  //t->running_file = file;					// Init Running File
-  //file_deny_write(file);					// Deny write to file
-  //lock_release(&process_lock);					// UnLock
+  t->running_file = file;					// Init Running File
+  file_deny_write(file);					// Deny write to file
 
   /* Read and verify executable header. */
   if (file_read (file, &ehdr, sizeof ehdr) != sizeof ehdr
@@ -529,7 +535,8 @@ load (const char *file_name, void (**eip) (void), void **esp)
 
  done:
   /* We arrive here whether the load is successful or not. */
-  file_close (file);
+  lock_release(&filesys_lock);			// Unlock
+  //file_close (file);
   return success;
 }
 

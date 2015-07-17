@@ -229,26 +229,26 @@ syscall_handler (struct intr_frame *f UNUSED)
 
 	//hex_dump(f->esp, f->esp, PHYS_BASE - f->esp, true);
 
-	//printf("-------------------------------------- %d\n", syscall_number);
-
+	// If 1 < argc : esp + 4 + (argc*4)
+	// else if argc == 1 : esp
 	switch (syscall_number)
 	{
 	case SYS_HALT:
 		halt();
 		break;
 	case SYS_EXIT:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		//printf("a %d : \n", arg[0]);
 		exit(arg[0]);
 		break;
 	case SYS_EXEC:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = exec((const char *)arg[0]);
 		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_WAIT:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		f->eax = wait(arg[0]);
 		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
@@ -259,19 +259,19 @@ syscall_handler (struct intr_frame *f UNUSED)
 		//printf("a %s %d : %d\n", arg[0], arg[1], f->eax);
 		break;
 	case SYS_REMOVE:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = remove(arg[0]);
 		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_OPEN:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = open(arg[0]);
 		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_FILESIZE:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		f->eax = filesize(arg[0]);
 		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
@@ -293,12 +293,12 @@ syscall_handler (struct intr_frame *f UNUSED)
 		//printf("a %d %d : \n", arg[0], arg[1]);
 		break;
 	case SYS_TELL:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		f->eax = tell(arg[0]);
 		//printf("a %d : %d\n", arg[0], arg[1]);
 		break;
 	case SYS_CLOSE:
-		get_argument(esp+8, arg, 1);
+		get_argument(esp, arg, 1);
 		//printf("a %d : \n", arg[0]);
 		close(arg[0]);
 		break;
@@ -307,6 +307,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 		thread_exit();
 		break;
 	}
+	//printf("================ %d\n", f->eax);
 
 	//thread_exit ();
 }

@@ -322,7 +322,10 @@ thread_exit (void)
   
   /***************************************************************/
   t->exit_success = true;		// Inform the Process's exit to pd
-  sema_up(&t->exit_sema);		// Continue Parent Process
+  if (t->parent != NULL)
+  {
+    sema_up(&t->exit_sema);		// Continue Parent Process
+  }
   /***************************************************************/
 
   t->status = THREAD_DYING;
