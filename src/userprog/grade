@@ -1180,7 +1180,7 @@ Executing 'open-twice':
 open-twice: exit(0)
 Execution of 'open-twice' complete.
 Timer: 323 ticks
-Thread: 44 idle ticks, 234 kernel ticks, 47 user ticks
+Thread: 44 idle ticks, 233 kernel ticks, 48 user ticks
 hda2 (filesys): 103 reads, 194 writes
 hda3 (scratch): 93 reads, 2 writes
 Console: 1010 characters output
@@ -1451,7 +1451,7 @@ Executing 'read-normal':
 (read-normal) end
 read-normal: exit(0)
 Execution of 'read-normal' complete.
-Timer: 324 ticks
+Timer: 325 ticks
 Thread: 46 idle ticks, 233 kernel ticks, 48 user ticks
 hda2 (filesys): 94 reads, 194 writes
 hda3 (scratch): 93 reads, 2 writes
@@ -1766,7 +1766,7 @@ Executing 'write-bad-ptr':
 (write-bad-ptr) open "sample.txt"
 write-bad-ptr: exit(-1)
 Execution of 'write-bad-ptr' complete.
-Timer: 311 ticks
+Timer: 312 ticks
 Thread: 46 idle ticks, 233 kernel ticks, 35 user ticks
 hda2 (filesys): 93 reads, 194 writes
 hda3 (scratch): 93 reads, 2 writes
@@ -2638,7 +2638,7 @@ child-rox: exit(12)
 rox-child: exit(0)
 Execution of 'rox-child' complete.
 Timer: 485 ticks
-Thread: 87 idle ticks, 303 kernel ticks, 97 user ticks
+Thread: 87 idle ticks, 302 kernel ticks, 98 user ticks
 hda2 (filesys): 138 reads, 398 writes
 hda3 (scratch): 194 reads, 2 writes
 Console: 1208 characters output
@@ -2716,8 +2716,8 @@ child-rox: exit(12)
 (rox-multichild) end
 rox-multichild: exit(0)
 Execution of 'rox-multichild' complete.
-Timer: 758 ticks
-Thread: 88 idle ticks, 374 kernel ticks, 299 user ticks
+Timer: 759 ticks
+Thread: 88 idle ticks, 376 kernel ticks, 297 user ticks
 hda2 (filesys): 302 reads, 398 writes
 hda3 (scratch): 194 reads, 2 writes
 Console: 1905 characters output
@@ -3023,9 +3023,7 @@ Kernel PANIC recursion at ../../threads/synch.c:197 in lock_acquire().
 multi-oom: exit(-1)
 multi-oom: exit(-1)
 multi-oom: exit(-1)
-multi-oom: exit(-1)
-multi-oom: exit(-1)
-msÀùPiLo hda1
+multi-oom: ePiLo hda1
 Loading..........
 Kernel command line: -q -f extract run multi-oom
 Pintos booting with 4,096 kB RAM...
@@ -3195,8 +3193,8 @@ Executing 'lg-random':
 (lg-random) end
 lg-random: exit(0)
 Execution of 'lg-random' complete.
-Timer: 688 ticks
-Thread: 51 idle ticks, 249 kernel ticks, 391 user ticks
+Timer: 697 ticks
+Thread: 52 idle ticks, 248 kernel ticks, 399 user ticks
 hda2 (filesys): 233 reads, 502 writes
 hda3 (scratch): 96 reads, 2 writes
 Console: 1052 characters output
@@ -3393,7 +3391,7 @@ Executing 'sm-full':
 sm-full: exit(0)
 Execution of 'sm-full' complete.
 Timer: 353 ticks
-Thread: 45 idle ticks, 214 kernel ticks, 96 user ticks
+Thread: 46 idle ticks, 214 kernel ticks, 95 user ticks
 hda2 (filesys): 106 reads, 222 writes
 hda3 (scratch): 94 reads, 2 writes
 Console: 1065 characters output
@@ -3440,8 +3438,8 @@ Executing 'sm-random':
 (sm-random) end
 sm-random: exit(0)
 Execution of 'sm-random' complete.
-Timer: 487 ticks
-Thread: 43 idle ticks, 216 kernel ticks, 230 user ticks
+Timer: 494 ticks
+Thread: 43 idle ticks, 217 kernel ticks, 237 user ticks
 hda2 (filesys): 335 reads, 332 writes
 hda3 (scratch): 96 reads, 2 writes
 Console: 1052 characters output
@@ -3490,8 +3488,8 @@ Executing 'sm-seq-block':
 (sm-seq-block) end
 sm-seq-block: exit(0)
 Execution of 'sm-seq-block' complete.
-Timer: 370 ticks
-Thread: 43 idle ticks, 217 kernel ticks, 113 user ticks
+Timer: 371 ticks
+Thread: 43 idle ticks, 217 kernel ticks, 114 user ticks
 hda2 (filesys): 127 reads, 233 writes
 hda3 (scratch): 94 reads, 2 writes
 Console: 1150 characters output
@@ -3540,7 +3538,7 @@ Executing 'sm-seq-random':
 (sm-seq-random) end
 sm-seq-random: exit(0)
 Execution of 'sm-seq-random' complete.
-Timer: 369 ticks
+Timer: 370 ticks
 Thread: 43 idle ticks, 218 kernel ticks, 111 user ticks
 hda2 (filesys): 120 reads, 230 writes
 hda3 (scratch): 94 reads, 2 writes
@@ -3592,37 +3590,37 @@ Executing 'syn-read':
 (syn-read) exec child 2 of 10: "child-syn-read 1"
 (syn-read) exec child 3 of 10: "child-syn-read 2"
 (syn-read) exec child 4 of 10: "child-syn-read 3"
-child-syn-read: exit(0)
 (syn-read) exec child 5 of 10: "child-syn-read 4"
+child-syn-read: exit(3)
 child-syn-read: exit(2)
 (syn-read) exec child 6 of 10: "child-syn-read 5"
 (syn-read) exec child 7 of 10: "child-syn-read 6"
+child-syn-read: exit(5)
+child-syn-read: exit(1)
 (syn-read) exec child 8 of 10: "child-syn-read 7"
 (syn-read) exec child 9 of 10: "child-syn-read 8"
+child-syn-read: exit(7)
 (syn-read) exec child 10 of 10: "child-syn-read 9"
-(syn-read) wait for child 1 of 10 returned 0 (expected 0)
-child-syn-read: exit(3)
-child-syn-read: exit(4)
-child-syn-read: exit(5)
 child-syn-read: exit(6)
-child-syn-read: exit(1)
+child-syn-read: exit(4)
+child-syn-read: exit(0)
+(syn-read) wait for child 1 of 10 returned 0 (expected 0)
 (syn-read) wait for child 2 of 10 returned 1 (expected 1)
+child-syn-read: exit(8)
 (syn-read) wait for child 3 of 10 returned 2 (expected 2)
 (syn-read) wait for child 4 of 10 returned 3 (expected 3)
 (syn-read) wait for child 5 of 10 returned 4 (expected 4)
 (syn-read) wait for child 6 of 10 returned 5 (expected 5)
 (syn-read) wait for child 7 of 10 returned 6 (expected 6)
-child-syn-read: exit(8)
-child-syn-read: exit(7)
-child-syn-read: exit(9)
 (syn-read) wait for child 8 of 10 returned 7 (expected 7)
+child-syn-read: exit(9)
 (syn-read) wait for child 9 of 10 returned 8 (expected 8)
 (syn-read) wait for child 10 of 10 returned 9 (expected 9)
 (syn-read) end
 syn-read: exit(0)
 Execution of 'syn-read' complete.
-Timer: 6917 ticks
-Thread: 90 idle ticks, 463 kernel ticks, 6367 user ticks
+Timer: 6788 ticks
+Thread: 89 idle ticks, 473 kernel ticks, 6229 user ticks
 hda2 (filesys): 10762 reads, 414 writes
 hda3 (scratch): 199 reads, 2 writes
 Console: 2353 characters output
@@ -3720,38 +3718,42 @@ Executing 'syn-write':
 (syn-write) exec child 2 of 10: "child-syn-wrt 1"
 child-syn-wrt: exit(0)
 (syn-write) exec child 3 of 10: "child-syn-wrt 2"
-((null)) open "stuff": FAILED
 child-syn-wrt: exit(1)
 (syn-write) exec child 4 of 10: "child-syn-wrt 3"
 child-syn-wrt: exit(2)
 (syn-write) exec child 5 of 10: "child-syn-wrt 4"
 child-syn-wrt: exit(3)
 (syn-write) exec child 6 of 10: "child-syn-wrt 5"
-((null)) open "stuff": FAILED
-child-syn-wrt: exit(1)
+child-syn-wrt: exit(4)
 (syn-write) exec child 7 of 10: "child-syn-wrt 6"
 child-syn-wrt: exit(5)
 (syn-write) exec child 8 of 10: "child-syn-wrt 7"
-((null)) open "stuff": FAILED
-child-syn-wrt: exit(1)
-(syn-write) exec child 9 of 10: "child-syn-wrt 8"
+child-syn-wrt: exit(6)
 child-syn-wrt: exit(7)
+(syn-write) exec child 9 of 10: "child-syn-wrt 8"
 (syn-write) exec child 10 of 10: "child-syn-wrt 9"
 child-syn-wrt: exit(8)
+child-syn-wrt: exit(9)
 (syn-write) wait for child 1 of 10 returned 0 (expected 0)
 (syn-write) wait for child 2 of 10 returned 1 (expected 1)
 (syn-write) wait for child 3 of 10 returned 2 (expected 2)
-child-syn-wrt: exit(9)
 (syn-write) wait for child 4 of 10 returned 3 (expected 3)
-(syn-write) wait for child 5 of 10 returned 1 (expected 4)
-(syn-write) wait for child 5 of 10 returned 1 (expected 4): FAILED
-syn-write: exit(1)
+(syn-write) wait for child 5 of 10 returned 4 (expected 4)
+(syn-write) wait for child 6 of 10 returned 5 (expected 5)
+(syn-write) wait for child 7 of 10 returned 6 (expected 6)
+(syn-write) wait for child 8 of 10 returned 7 (expected 7)
+(syn-write) wait for child 9 of 10 returned 8 (expected 8)
+(syn-write) wait for child 10 of 10 returned 9 (expected 9)
+(syn-write) open "stuff"
+(syn-write) read "stuff"
+(syn-write) end
+syn-write: exit(0)
 Execution of 'syn-write' complete.
-Timer: 1133 ticks
-Thread: 85 idle ticks, 508 kernel ticks, 542 user ticks
-hda2 (filesys): 508 reads, 425 writes
+Timer: 1206 ticks
+Thread: 84 idle ticks, 505 kernel ticks, 619 user ticks
+hda2 (filesys): 545 reads, 428 writes
 hda3 (scratch): 198 reads, 2 writes
-Console: 2131 characters output
+Console: 2336 characters output
 Keyboard: 0 keys pressed
 Exception: 0 page faults
 Powering off..========================================================================
@@ -3760,10 +3762,9 @@ Powering off..==================================================================
                   Compiled on Jun  7 2015 at 19:24:37
 ========================================================================
 perl -I../.. ../../tests/filesys/base/syn-write.ck tests/filesys/base/syn-write tests/filesys/base/syn-write.result
-FAIL tests/filesys/base/syn-write
-run: ((null)) open "stuff": FAILED
+pass tests/filesys/base/syn-write
 ../../tests/make-grade ../.. results ../../tests/userprog/Grading | tee grade
-TOTAL TESTING SCORE: 86.0%
+TOTAL TESTING SCORE: 90.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -3774,9 +3775,9 @@ Test Set                                      Pts Max  % Ttl  % Max
 tests/userprog/Rubric.functionality           108/108  35.0%/ 35.0%
 tests/userprog/Rubric.robustness               88/ 88  25.0%/ 25.0%
 tests/userprog/no-vm/Rubric                     0/  1   0.0%/ 10.0%
-tests/filesys/base/Rubric                      26/ 30  26.0%/ 30.0%
+tests/filesys/base/Rubric                      30/ 30  30.0%/ 30.0%
 --------------------------------------------- --- --- ------ ------
-Total                                                  86.0%/100.0%
+Total                                                  90.0%/100.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -3917,12 +3918,12 @@ Functionality of base file system (tests/filesys/base/Rubric):
 
 	- Test synchronized multiprogram access to files.
 	     4/ 4 tests/filesys/base/syn-read
-	  ** 0/ 4 tests/filesys/base/syn-write
+	     4/ 4 tests/filesys/base/syn-write
 	     2/ 2 tests/filesys/base/syn-remove
 
 	- Section summary.
-	     12/ 13 tests passed
-	     26/ 30 points subtotal
+	     13/ 13 tests passed
+	     30/ 30 points subtotal
 
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -3974,89 +3975,9 @@ Kernel PANIC recursion at ../../threads/synch.c:197 in lock_acquire().
 multi-oom: exit(-1)
 multi-oom: exit(-1)
 multi-oom: exit(-1)
-multi-oom: exit(-1)
-multi-oom: exit(-1)
-msÀùPiLo hda1
+multi-oom: ePiLo hda1
 Loading..........
 Kernel command line: -q -f extract run multi-oom
 Pintos booting with 4,096 kB RAM...
 [...details of reboot(s) omitted...]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/filesys/base/syn-write FAILURE:
-
-run: ((null)) open "stuff": FAILED
-
-OUTPUT FROM tests/filesys/base/syn-write:
-
-Copying tests/filesys/base/syn-write to scratch partition...
-Copying tests/filesys/base/child-syn-wrt to scratch partition...
-warning: can't find squish-pty, so terminal input will fail
-bochs -q
-PiLo hda1
-Loading..........
-Kernel command line: -q -f extract run syn-write
-Pintos booting with 4,096 kB RAM...
-383 pages available in kernel pool.
-383 pages available in user pool.
-Calibrating timer...  204,600 loops/s.
-hda: 5,040 sectors (2 MB), model "BXHD00011", serial "Generic 1234"
-hda1: 175 sectors (87 kB), Pintos OS kernel (20)
-hda2: 4,096 sectors (2 MB), Pintos file system (21)
-hda3: 199 sectors (99 kB), Pintos scratch (22)
-filesys: using hda2
-scratch: using hda3
-Formatting file system...done.
-Boot complete.
-Extracting ustar archive from scratch device into file system...
-Putting 'syn-write' into the file system...
-Putting 'child-syn-wrt' into the file system...
-Erasing ustar archive...
-Executing 'syn-write':
-(syn-write) begin
-(syn-write) create "stuff"
-(syn-write) exec child 1 of 10: "child-syn-wrt 0"
-(syn-write) exec child 2 of 10: "child-syn-wrt 1"
-child-syn-wrt: exit(0)
-(syn-write) exec child 3 of 10: "child-syn-wrt 2"
-((null)) open "stuff": FAILED
-child-syn-wrt: exit(1)
-(syn-write) exec child 4 of 10: "child-syn-wrt 3"
-child-syn-wrt: exit(2)
-(syn-write) exec child 5 of 10: "child-syn-wrt 4"
-child-syn-wrt: exit(3)
-(syn-write) exec child 6 of 10: "child-syn-wrt 5"
-((null)) open "stuff": FAILED
-child-syn-wrt: exit(1)
-(syn-write) exec child 7 of 10: "child-syn-wrt 6"
-child-syn-wrt: exit(5)
-(syn-write) exec child 8 of 10: "child-syn-wrt 7"
-((null)) open "stuff": FAILED
-child-syn-wrt: exit(1)
-(syn-write) exec child 9 of 10: "child-syn-wrt 8"
-child-syn-wrt: exit(7)
-(syn-write) exec child 10 of 10: "child-syn-wrt 9"
-child-syn-wrt: exit(8)
-(syn-write) wait for child 1 of 10 returned 0 (expected 0)
-(syn-write) wait for child 2 of 10 returned 1 (expected 1)
-(syn-write) wait for child 3 of 10 returned 2 (expected 2)
-child-syn-wrt: exit(9)
-(syn-write) wait for child 4 of 10 returned 3 (expected 3)
-(syn-write) wait for child 5 of 10 returned 1 (expected 4)
-(syn-write) wait for child 5 of 10 returned 1 (expected 4): FAILED
-syn-write: exit(1)
-Execution of 'syn-write' complete.
-Timer: 1133 ticks
-Thread: 85 idle ticks, 508 kernel ticks, 542 user ticks
-hda2 (filesys): 508 reads, 425 writes
-hda3 (scratch): 198 reads, 2 writes
-Console: 2131 characters output
-Keyboard: 0 keys pressed
-Exception: 0 page faults
-Powering off..========================================================================
-                       Bochs x86 Emulator 2.6.8
-                Built from SVN snapshot on May 3, 2015
-                  Compiled on Jun  7 2015 at 19:24:37
-========================================================================
 make[1]: Leaving directory `/home/jata/pintos/src/userprog/build'

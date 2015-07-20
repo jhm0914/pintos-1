@@ -35,10 +35,10 @@ void halt (void)
 }
 void exit (int status)
 {
-	struct thread *cur = thread_current();
-	cur->exit_status = status;
-	printf("%s: exit(%d)\n", cur->name, status);
-	thread_exit();
+	struct thread *cur = thread_current();			// Get Running Thread
+	cur->exit_status = status;				// Save Exit Status
+	printf("%s: exit(%d)\n", cur->name, status);		// Output Exit Message
+	thread_exit();						// Exit Thread
 }
 bool create (const char *file, unsigned initial_size)
 {
@@ -70,32 +70,48 @@ tid_t exec (const char *cmd_line)
 }
 int wait(tid_t tid)
 {
-	process_wait(tid);
+	return process_wait(tid);
 }
 int open (const char *file)
 {
 	int fd;
-	struct file *f = filesys_open(file);		// File Open
+	struct file *f;
+
+	lock_acquire(&filesys_lock);			// Lock
+
+	f = filesys_open(file);				// File Open
 	
 	if (f == NULL)
 	{
+		lock_release(&filesys_lock);		// Unlock
 		return -1;				// If File isn't exist, Return -1
 	}
 
 	fd = process_add_file(f);			// Give File Descriptor to File Object
 
+	lock_release(&filesys_lock);			// Unlock
+
 	return fd;					// Return File Descriptor
 }
 int filesize (int fd)
 {
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
+	struct file *f;
+	int length;
+
+	lock_acquire(&filesys_lock);			// Lock
+
+	f = process_get_file(fd);			// Search the File Object as use fd
 
 	if (f == NULL)
 	{
+		lock_release(&filesys_lock);		// Unlock
 		return -1;				// If File isn't exist, Return -1
 	}
 
-	return file_length(f);				// Return Length of File
+	length = file_length(f);			// Save File Length
+	lock_release(&filesys_lock);			// Unlock
+
+	return length;					// Return Length of File
 }
 int read (int fd, void *buffer, unsigned size)
 {
@@ -169,13 +185,30 @@ int write (int fd, void *buffer, unsigned size)
 }
 void seek (int fd, unsigned position)
 {
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
+	struct file *f;
+
+	lock_acquire(&filesys_lock);			// Lock
+
+	f = process_get_file(fd);			// Search the File Object as use fd
+
 	file_seek(f, position);				// seek
+
+	lock_release(&filesys_lock);			// Unlock
 }
 unsigned tell (int fd)
 {
-	struct file *f = process_get_file(fd);		// Search the File Object as use fd
-	return file_tell(f);				// tell
+	struct file *f;
+	unsigned off_pos;
+
+	lock_acquire(&filesys_lock);			// Lock
+	
+	f = process_get_file(fd);			// Search the File Object as use fd
+
+	off_pos = file_tell(f);				// Get Off Position
+
+	lock_release(&filesys_lock);			// Unlock
+
+	return off_pos;					// tell
 }
 void close (int fd)
 {
@@ -188,7 +221,6 @@ void check_address (void *addr)
 
 	if (!(0x8048000 < address && address < 0xc0000000))
 	{
-		//printf("Invalid Memory Access : %p\n", address);
 		exit(-1);
 	}
 }
@@ -227,8 +259,6 @@ syscall_handler (struct intr_frame *f UNUSED)
 	/* Get SysCall Number from User Stack */
 	syscall_number = *(int*)esp;
 
-	//hex_dump(f->esp, f->esp, PHYS_BASE - f->esp, true);
-
 	// If 1 < argc : esp + 4 + (argc*4)
 	// else if argc == 1 : esp
 	switch (syscall_number)
@@ -238,76 +268,60 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_EXIT:
 		get_argument(esp, arg, 1);
-		//printf("a %d : \n", arg[0]);
 		exit(arg[0]);
 		break;
 	case SYS_EXEC:
 		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = exec((const char *)arg[0]);
-		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_WAIT:
 		get_argument(esp, arg, 1);
 		f->eax = wait(arg[0]);
-		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
 	case SYS_CREATE:
 		get_argument(esp+12, arg, 2);
 		check_address((void*)arg[0]);
 		f->eax = create(arg[0], arg[1]);
-		//printf("a %s %d : %d\n", arg[0], arg[1], f->eax);
 		break;
 	case SYS_REMOVE:
 		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = remove(arg[0]);
-		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_OPEN:
 		get_argument(esp, arg, 1);
 		check_address((void*)arg[0]);
 		f->eax = open(arg[0]);
-		//printf("a %s : %d\n", arg[0], f->eax);
 		break;
 	case SYS_FILESIZE:
 		get_argument(esp, arg, 1);
 		f->eax = filesize(arg[0]);
-		//printf("a %d : %d\n", arg[0], f->eax);
 		break;
 	case SYS_READ:
 		get_argument(esp+16, arg, 3);
 		check_address((void*)arg[1]);
 		f->eax = read(arg[0], arg[1], arg[2]);
-		//printf("a %d %d : %d\n", arg[0], arg[2], f->eax);
 		break;
 	case SYS_WRITE:
 		get_argument(esp+16, arg, 3);
 		check_address((void*)arg[1]);
 		f->eax = write(arg[0], arg[1], arg[2]);
-		//printf("a %d %s %d : %d\n", arg[0], arg[1], arg[2], f->eax);
 		break;
 	case SYS_SEEK:
 		get_argument(esp+12, arg, 2);
 		seek(arg[0], arg[1]);
-		//printf("a %d %d : \n", arg[0], arg[1]);
 		break;
 	case SYS_TELL:
 		get_argument(esp, arg, 1);
 		f->eax = tell(arg[0]);
-		//printf("a %d : %d\n", arg[0], arg[1]);
 		break;
 	case SYS_CLOSE:
 		get_argument(esp, arg, 1);
-		//printf("a %d : \n", arg[0]);
 		close(arg[0]);
 		break;
 	default:
-		printf("!!!!!!!!!!!!!!!!!!!!!!\n");
 		thread_exit();
 		break;
 	}
-	//printf("================ %d\n", f->eax);
-
-	//thread_exit ();
 }
