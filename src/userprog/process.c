@@ -73,6 +73,10 @@ int process_add_file (struct file *f)
 	}
 
 	t->fdt = realloc(t->fdt, (t->fd_size*2)*sizeof(struct file*));
+	for (fd = t->fd_size; fd<t->fd_size*2; fd++)
+	{
+		t->fdt[fd] = 0;
+	}
 	t->fdt[t->fd_size] = f;
 	fd = t->fd_size;
 	t->fd_size = t->fd_size*2;
@@ -122,9 +126,9 @@ void argument_stack(char **parse, int count, void **esp)
 	//address = (uint32_t*)malloc(sizeof(uint32_t)*count);
 
 	/* Push Strings */
-	for (i = count - 1; i>-1; i--)
+	for (i = count - 1; i>=0; i--)
 	{
-		for (j = strlen(parse[i]); j>-1; j--)
+		for (j = strlen(parse[i]); j>=0; j--)
 		{
 			*esp = *esp - 1;
 			**(char**)esp = parse[i][j];
@@ -144,7 +148,7 @@ void argument_stack(char **parse, int count, void **esp)
 	}
 
 	/* Push Addresses */
-	for (i = count - 1; i>-1; i--)
+	for (i = count - 1; i>=0; i--)
 	{
 		*esp = *esp - 4;
 		**(uint32_t**)esp = address[i];
