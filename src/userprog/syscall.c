@@ -35,9 +35,14 @@ void halt (void)
 }
 void exit (int status)
 {
-	struct thread *cur = thread_current();			// Get Running Thread
+	struct thread *cur;
+
+	cur = thread_current();					// Get Running Thread
+
 	cur->exit_status = status;				// Save Exit Status
+
 	printf("%s: exit(%d)\n", cur->name, status);		// Output Exit Message
+
 	thread_exit();						// Exit Thread
 }
 bool create (const char *file, unsigned initial_size)
@@ -62,11 +67,11 @@ tid_t exec (const char *cmd_line)
 	/* Wait for Load of Child Process's Program */
 	sema_down(&t->load_sema);
 
-	if (t->load_success == false)
+	if (!t->load_success)
 	{
 		return -1;
 	}
-	else if(t->load_success == true)
+	else if(t->load_success)
 	{
 		return pid;
 	}
