@@ -8,7 +8,7 @@
 #include "userprog/gdt.h"
 #include "userprog/pagedir.h"
 #include "userprog/tss.h"
-//#include "userprog/syscall.h"
+#include "userprog/syscall.h"
 #include "filesys/directory.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
@@ -19,7 +19,7 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 
-extern struct lock filesys_lock;
+//extern struct lock filesys_lock;
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
@@ -34,9 +34,11 @@ void argument_stack (char **parse, int count, void **esp);
 /*******************************************************************************************************/
 void process_close_file (int fd)
 {
-	struct file *f = process_get_file(fd);
+	struct file *f;
 
-	if (f != NULL)
+	f = process_get_file(fd);
+
+	if (!f)
 	{
 		file_close(f);
 		thread_current()->fdt[fd] = NULL;
@@ -44,9 +46,11 @@ void process_close_file (int fd)
 }
 struct file *process_get_file(int fd)
 {
-	struct thread *t = thread_current();
+	struct thread *t;
 
-	if (fd < 1 || t->fd_size <= fd)
+	t = thread_current();
+
+	if (fd < 2 || t->fd_size <= fd)
 	{
 		return NULL;
 	}
@@ -55,11 +59,13 @@ struct file *process_get_file(int fd)
 int process_add_file (struct file *f)
 {
 	int fd;
-	struct thread *t = thread_current();
+	struct thread *t;
 
-	for (fd = 2; t->fd_size; fd++)
+	t = thread_current();
+
+	for (fd = 2; fd < t->fd_size; fd++)
 	{
-		if (t->fdt[fd] == NULL)
+		if (!t->fdt[fd])
 		{
 			t->fdt[fd] = f;
 			return fd;
@@ -75,9 +81,15 @@ int process_add_file (struct file *f)
 }
 struct thread *get_child_process (int pid)
 {
-	struct thread *t = thread_current();
-	struct list_elem *child_elem = list_begin(&t->child_list);
-	struct list_elem *tail = list_tail(&t->child_list);
+	struct thread *t;
+	struct list_elem *child_elem;
+	struct list_elem *tail;
+
+	t = thread_current();
+	//child_elem = list_begin(&t->child_list);
+	child_elem = t->child_list.head.next;
+	//tail = list_tail(&t->child_list);
+	tail = &t->child_list.tail;
 
 	/* Search the Process Descriptor as access to Child List */
 	while (child_elem != tail)
@@ -89,7 +101,8 @@ struct thread *get_child_process (int pid)
 		{
 			return t;
 		}
-		child_elem = list_next(child_elem);
+		//child_elem = list_next(child_elem);
+		child_elem = child_elem->next;
 	}
 
 	/* If pid isn't exist, return NULL */
@@ -105,7 +118,8 @@ void argument_stack(char **parse, int count, void **esp)
 	int i,j;
 	uint32_t *address, ret_address, **temp;
 
-	address = (uint32_t*)malloc(sizeof(address)*count);
+	address = palloc_get_page(0);
+	//address = (uint32_t*)malloc(sizeof(uint32_t)*count);
 
 	/* Push Strings */
 	for (i = count - 1; i>-1; i--)
@@ -150,7 +164,8 @@ void argument_stack(char **parse, int count, void **esp)
 	*esp = *esp - 4;
 	**(uint32_t**)esp = ret_address;
 
-	free(address);
+	palloc_free_page(address);
+	//free(address);
 }
 /*******************************************************************************************************/
 
@@ -165,7 +180,12 @@ process_execute (const char *file_name)
   tid_t tid;
 
   /******************************* Parsing *********************************/
-  file_name_copy = (char*)malloc(sizeof(char)*strlen(file_name)+1);
+  /*file_name_copy = (char*)malloc(sizeof(char)*strlen(file_name)+1);
+  strlcpy(file_name_copy, file_name, strlen(file_name)+1);
+  thread_name = strtok_r(file_name_copy, " ", &saveptr);*/
+  file_name_copy = palloc_get_page(0);
+  if (file_name_copy == NULL)
+    return TID_ERROR;
   strlcpy(file_name_copy, file_name, strlen(file_name)+1);
   thread_name = strtok_r(file_name_copy, " ", &saveptr);
   /*************************************************************************/
@@ -183,7 +203,8 @@ process_execute (const char *file_name)
     palloc_free_page (fn_copy); 
   
   /* Memory free */
-  free(file_name_copy);
+  //free(file_name_copy);
+  palloc_free_page(file_name_copy);
 
   return tid;
 }
@@ -200,7 +221,7 @@ start_process (void *file_name_)
   int argc = 0, i;
 
   /*********************************** Parsing ****************************************/
-  for (	token = strtok_r(file_name, " ", &saveptr);
+  /*for (	token = strtok_r(file_name, " ", &saveptr);
   	token != NULL;
 	token = strtok_r(NULL, " ", &saveptr)		)
   {
@@ -213,6 +234,17 @@ start_process (void *file_name_)
       argv = (char**)realloc(argv, (argc+1)*sizeof(char*));
     }
     argv[argc] = (char*)malloc(strlen(token)+1);
+    strlcpy(argv[argc++], token, strlen(token)+1);
+  }*/
+  for (	token = strtok_r(file_name, " ", &saveptr);
+  	token != NULL;
+	token = strtok_r(NULL, " ", &saveptr)		)
+  {
+    if (argc == 0)
+    {
+      argv = palloc_get_page(0);
+    }
+    argv[argc] = palloc_get_page(0);
     strlcpy(argv[argc++], token, strlen(token)+1);
   }
   /************************************************************************************/
@@ -232,9 +264,11 @@ start_process (void *file_name_)
   {
     for (i = 0; i<argc; i++)
     {
-      free(argv[i]);
+      //free(argv[i]);
+      palloc_free_page(argv[i]);
     }
-    free(argv);
+    //free(argv);
+    palloc_free_page(argv);
     thread_exit ();
   }
   
@@ -244,9 +278,11 @@ start_process (void *file_name_)
   /* free */
   for (i = 0; i<argc; i++)
   {
-    free(argv[i]);
+    //free(argv[i]);
+    palloc_free_page(argv[i]);
   }
-  free(argv);
+  //free(argv);
+  palloc_free_page(argv);
 
   //hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
 
@@ -272,12 +308,14 @@ start_process (void *file_name_)
 int
 process_wait (tid_t child_tid UNUSED) 
 {
-  /* Search Process Descriptor of Child */
-  struct thread *t = get_child_process(child_tid);
+  struct thread *t;
   int exit_status;
 
+  /* Search Process Descriptor of Child */
+  t = get_child_process(child_tid);
+
   /* If Exception is occur, return -1 */
-  if (t == NULL)
+  if (!t)
   {
     return -1;
   }
@@ -304,7 +342,10 @@ process_exit (void)
   /*************************************************/
   for (i = 2; i<cur->fd_size; i++)
   {
-    process_close_file(i);
+    if (cur->fdt[i])
+    {
+      process_close_file(i);
+    }
   }
   free(cur->fdt);
   /*************************************************/
@@ -314,7 +355,7 @@ process_exit (void)
   pd = cur->pagedir;
 
   /************************************************************************************************/
-  if (cur->running_file != NULL)
+  if (cur->running_file)
   {
     file_close(cur->running_file);					// Close the Running File
   }

@@ -50,11 +50,14 @@ bool remove (const char *file)
 }
 tid_t exec (const char *cmd_line)
 {
+	int pid;
+	struct thread *t;
+
 	/* Create Process as call process_execute() */
-	int pid = process_execute(cmd_line);
+	pid = process_execute(cmd_line);
 
 	/* Search the Process Descriptor of Child Process Created */
-	struct thread *t = get_child_process(pid);
+	t = get_child_process(pid);
 
 	/* Wait for Load of Child Process's Program */
 	sema_down(&t->load_sema);
@@ -81,7 +84,7 @@ int open (const char *file)
 
 	f = filesys_open(file);				// File Open
 	
-	if (f == NULL)
+	if (!f)
 	{
 		lock_release(&filesys_lock);		// Unlock
 		return -1;				// If File isn't exist, Return -1
@@ -102,13 +105,14 @@ int filesize (int fd)
 
 	f = process_get_file(fd);			// Search the File Object as use fd
 
-	if (f == NULL)
+	if (!f)
 	{
 		lock_release(&filesys_lock);		// Unlock
 		return -1;				// If File isn't exist, Return -1
 	}
 
 	length = file_length(f);			// Save File Length
+
 	lock_release(&filesys_lock);			// Unlock
 
 	return length;					// Return Length of File
@@ -136,7 +140,7 @@ int read (int fd, void *buffer, unsigned size)
 	}
 	else						// If fd != 0, Return the Bytes after Save Data of File.
 	{
-		if (f == NULL)
+		if (!f)
 		{
 			lock_release(&filesys_lock);
 			return -1;
@@ -168,7 +172,7 @@ int write (int fd, void *buffer, unsigned size)
 	}
 	else						// If fd != 1, Record the data that saved in buffer, and return size that recorded
 	{
-		if (f == NULL)
+		if (!f)
 		{
 			lock_release(&filesys_lock);
 			return -1;
