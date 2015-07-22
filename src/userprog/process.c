@@ -344,11 +344,11 @@ process_exit (void)
   int i;
 
   /*************************************************/
-  for (i = 2; i<cur->fd_size; i++)
+  for (i = 0; i<cur->fd_size; i++)
   {
     if (cur->fdt[i])
     {
-      process_close_file(i);
+      file_close(cur->fdt[i]);
     }
   }
   free(cur->fdt);

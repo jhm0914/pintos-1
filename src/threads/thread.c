@@ -19,6 +19,7 @@
    Used to detect stack overflow.  See the big comment at the top
    of thread.h for details. */
 #define THREAD_MAGIC 0xcd6abf4b
+#define INIT_FD 10
 
 /* List of processes in THREAD_READY state, that is, processes
    that are ready to run but not actually running. */
@@ -215,9 +216,9 @@ thread_create (const char *name, int priority,
   sema_init(&t->load_sema, 0);						// Init load_sema to 0
   list_push_back(&t->parent->child_list, &t->child_elem);		// Append to Child List
 
-  t->fd_size = 10;							// Init the fd's value (0 : stdin, 1 : stdout)
-  t->fdt = (struct file**)malloc(10*sizeof(struct file*));		// malloc the Fiel Descriptor Tabele
-  for (i = 0; i<10; i++)
+  t->fd_size = INIT_FD;							// Init the fd's value (0 : stdin, 1 : stdout)
+  t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*));	// malloc the Fiel Descriptor Tabele
+  for (i = 0; i<t->fd_size; i++)
   {
     t->fdt[i] = NULL;
   }
