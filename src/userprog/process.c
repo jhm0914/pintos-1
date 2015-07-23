@@ -255,8 +255,6 @@ start_process (void *file_name_)
   
   /* Push Program's argv */
   argument_stack(argv, argc, &if_.esp);
-
-  hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
   
   /* free */
   for (i = 0; i<argc; i++)
