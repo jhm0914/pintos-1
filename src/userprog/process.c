@@ -8,7 +8,7 @@
 #include "userprog/gdt.h"
 #include "userprog/pagedir.h"
 #include "userprog/tss.h"
-#include "userprog/syscall.h"
+//#include "userprog/syscall.h"
 #include "filesys/directory.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
@@ -19,7 +19,7 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 
-//extern struct lock filesys_lock;
+extern struct lock filesys_lock;
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
@@ -36,42 +36,43 @@ void process_close_file (int fd)
 {
 	struct file *f;
 
-	f = process_get_file(fd);
+	f = process_get_file(fd);			// Get File Object as use fd value
 
-	if (!f)
+	if (!f)						// If kernel get File Object,
 	{
-		file_close(f);
-		thread_current()->fdt[fd] = NULL;
+		file_close(f);				// Close the file
+		thread_current()->fdt[fd] = NULL;	// Init the entry
 	}
 }
 struct file *process_get_file(int fd)
 {
 	struct thread *t;
 
-	t = thread_current();
+	t = thread_current();				// Get Current Running Thread Object
 
-	if (fd < 2 || t->fd_size <= fd)
+	if (fd < 2 || t->fd_size <= fd)			// If fd value is invalid
 	{
-		return NULL;
+		return NULL;				// Return NULL
 	}
-	return t->fdt[fd];
+	return t->fdt[fd];				// If not, Return File Object
 }
 int process_add_file (struct file *f)
 {
 	int fd;
 	struct thread *t;
 
-	t = thread_current();
+	t = thread_current();				// Get Current Running Thread Object
 
-	for (fd = 2; fd < t->fd_size; fd++)
+	for (fd = 2; fd < t->fd_size; fd++)		// Trace the Empty entry for File Object
 	{
-		if (!t->fdt[fd])
+		if (!t->fdt[fd])			// If there is Empty,
 		{
-			t->fdt[fd] = f;
-			return fd;
+			t->fdt[fd] = f;			// Insert it
+			return fd;			// and Return fd value
 		}
 	}
 
+	// On the Other hand, there is no empty entry Case
 	t->fdt = realloc(t->fdt, (t->fd_size*2)*sizeof(struct file*));
 	for (fd = t->fd_size; fd<t->fd_size*2; fd++)
 	{
@@ -89,11 +90,10 @@ struct thread *get_child_process (int pid)
 	struct list_elem *child_elem;
 	struct list_elem *tail;
 
-	t = thread_current();
-	//child_elem = list_begin(&t->child_list);
-	child_elem = t->child_list.head.next;
-	//tail = list_tail(&t->child_list);
-	tail = &t->child_list.tail;
+	t = thread_current();							// Get File Object that current running
+
+	child_elem = t->child_list.head.next;					// Get list_elem that first in the list
+	tail = &t->child_list.tail;						// Get Tail's address
 
 	/* Search the Process Descriptor as access to Child List */
 	while (child_elem != tail)
@@ -123,7 +123,6 @@ void argument_stack(char **parse, int count, void **esp)
 	uint32_t *address, ret_address, **temp;
 
 	address = palloc_get_page(0);
-	//address = (uint32_t*)malloc(sizeof(uint32_t)*count);
 
 	/* Push Strings */
 	for (i = count - 1; i>=0; i--)
@@ -169,7 +168,6 @@ void argument_stack(char **parse, int count, void **esp)
 	**(uint32_t**)esp = ret_address;
 
 	palloc_free_page(address);
-	//free(address);
 }
 /*******************************************************************************************************/
 
@@ -184,9 +182,6 @@ process_execute (const char *file_name)
   tid_t tid;
 
   /******************************* Parsing *********************************/
-  /*file_name_copy = (char*)malloc(sizeof(char)*strlen(file_name)+1);
-  strlcpy(file_name_copy, file_name, strlen(file_name)+1);
-  thread_name = strtok_r(file_name_copy, " ", &saveptr);*/
   file_name_copy = palloc_get_page(0);
   if (file_name_copy == NULL)
     return TID_ERROR;
@@ -207,7 +202,6 @@ process_execute (const char *file_name)
     palloc_free_page (fn_copy); 
   
   /* Memory free */
-  //free(file_name_copy);
   palloc_free_page(file_name_copy);
 
   return tid;
@@ -225,21 +219,6 @@ start_process (void *file_name_)
   int argc = 0, i;
 
   /*********************************** Parsing ****************************************/
-  /*for (	token = strtok_r(file_name, " ", &saveptr);
-  	token != NULL;
-	token = strtok_r(NULL, " ", &saveptr)		)
-  {
-    if (argc == 0)
-    {
-      argv = (char**)malloc(sizeof(char*));
-    }
-    else
-    {
-      argv = (char**)realloc(argv, (argc+1)*sizeof(char*));
-    }
-    argv[argc] = (char*)malloc(strlen(token)+1);
-    strlcpy(argv[argc++], token, strlen(token)+1);
-  }*/
   for (	token = strtok_r(file_name, " ", &saveptr);
   	token != NULL;
 	token = strtok_r(NULL, " ", &saveptr)		)
@@ -268,27 +247,23 @@ start_process (void *file_name_)
   {
     for (i = 0; i<argc; i++)
     {
-      //free(argv[i]);
       palloc_free_page(argv[i]);
     }
-    //free(argv);
     palloc_free_page(argv);
     thread_exit ();
   }
   
   /* Push Program's argv */
   argument_stack(argv, argc, &if_.esp);
+
+  hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
   
   /* free */
   for (i = 0; i<argc; i++)
   {
-    //free(argv[i]);
     palloc_free_page(argv[i]);
   }
-  //free(argv);
   palloc_free_page(argv);
-
-  //hex_dump(if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
