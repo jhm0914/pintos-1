@@ -116,6 +116,8 @@ struct thread
     struct file **fdt;					// File Decriptor Table
     int fd_size;					// fd value's Maximum that exist int current table
     struct file *running_file;				// Running File
+
+    int64_t wakeup_tick;
     /*************************************************************************************************************/
   };
 
@@ -154,5 +156,12 @@ int thread_get_nice (void);
 void thread_set_nice (int);
 int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
+
+/*************************************************************************************************/
+void thread_sleep(int64_t ticks); 			/* Change status to sleep the running thread */
+void thread_awake(int64_t ticks); 			/* Wake up the Thread in sleep_list */
+void update_next_tick_to_awake(int64_t ticks); 		/* Save the Thread that have minimum tick */
+int64_t get_next_tick_to_awake(void); 			/*  Return the next_tick_to_awake in thread.c*/
+/*************************************************************************************************/
 
 #endif /* threads/thread.h */

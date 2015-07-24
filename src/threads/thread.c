@@ -21,6 +21,12 @@
 #define THREAD_MAGIC 0xcd6abf4b
 #define INIT_FD 10
 
+/* List of processes in THREAD_BLOCKED stat */
+static struct list sleep_list;
+
+/* Minimum of entrys's of sleep_list tick value */
+int64_t next_tick_to_awake = INT64_MAX;
+
 /* List of processes in THREAD_READY state, that is, processes
    that are ready to run but not actually running. */
 static struct list ready_list;
@@ -91,6 +97,7 @@ thread_init (void)
   ASSERT (intr_get_level () == INTR_OFF);
 
   lock_init (&tid_lock);
+  list_init (&sleep_list);		/***************** Init the sleep_list *******************/
   list_init (&ready_list);
   list_init (&all_list);
 
@@ -413,6 +420,66 @@ thread_get_recent_cpu (void)
   /* Not yet implemented. */
   return 0;
 }
+
+/********************************************************************/
+void thread_sleep (int64_t ticks)
+{
+	struct thread *cur;
+	enum intr_level old_level;
+
+	cur = thread_current();					// Get Thread that call thread_sleep()
+	old_level = intr_disable();				// Save and block Interrupt
+
+	if (cur != idle_thread)					// If cur is not idle
+	{
+		cur->status = THREAD_BLOCKED;			// Change status to THREAD_BLOCKED
+		cur->wakeup_tick = ticks;			// Save wakeup_tick
+
+		list_remove(&cur->elem);			// Remove from ready_list
+		list_push_back(&sleep_list, &cur->elem);	// Push to sleep_list
+
+		update_next_tick_to_awake(ticks);		// Update next_tick_to_awake
+	}
+
+	schedule();						// Schedule
+	intr_set_level(old_level);				// Unblock Interrupt
+}
+void thread_awake (int64_t ticks)
+{
+	struct thread *t;
+	struct list_elem *elem = sleep_list.head.next;
+	struct list_elem *tail = &sleep_list.tail;
+
+	for ( ; elem != tail; elem = elem->next )
+	{
+		t = list_entry(elem, struct thread, elem);
+		if (t->wakeup_tick <= ticks)
+		{
+			printf("1\n");
+			list_remove(elem);
+			printf("2\n");
+			list_push_back(&ready_list, &t->elem);
+		}
+		else
+		{
+			update_next_tick_to_awake(t->wakeup_tick);
+		}
+	}
+}
+void update_next_tick_to_awake (int64_t ticks)
+{
+	if (ticks < next_tick_to_awake)
+	{
+		next_tick_to_awake = ticks;
+	}
+}
+int64_t get_next_tick_to_awake (void)
+{
+	return next_tick_to_awake;
+}
+/********************************************************************/
+
+
 
 /* Idle thread.  Executes when no other thread is ready to run.
 
