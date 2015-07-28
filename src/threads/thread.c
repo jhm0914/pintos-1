@@ -435,7 +435,7 @@ void thread_sleep (int64_t ticks)
 		cur->status = THREAD_BLOCKED;			// Change status to THREAD_BLOCKED
 		cur->wakeup_tick = ticks;			// Save wakeup_tick
 
-		list_remove(&cur->elem);			// Remove from ready_list
+		//list_remove(&cur->elem);			// Remove from ready_list
 		list_push_back(&sleep_list, &cur->elem);	// Push to sleep_list
 
 		update_next_tick_to_awake(ticks);		// Update next_tick_to_awake
@@ -449,20 +449,24 @@ void thread_awake (int64_t ticks)
 	struct thread *t;
 	struct list_elem *elem = sleep_list.head.next;
 	struct list_elem *tail = &sleep_list.tail;
+	struct list_elem *temp;
 
-	for ( ; elem != tail; elem = elem->next )
+	//next_tick_to_awake = INT64_MAX;
+
+	while (elem != tail)
 	{
 		t = list_entry(elem, struct thread, elem);
 		if (t->wakeup_tick <= ticks)
 		{
-			printf("1\n");
+			temp = elem->next;
 			list_remove(elem);
-			printf("2\n");
 			list_push_back(&ready_list, &t->elem);
+			elem = temp;
 		}
 		else
 		{
 			update_next_tick_to_awake(t->wakeup_tick);
+			elem = elem->next;
 		}
 	}
 }
