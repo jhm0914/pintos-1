@@ -475,6 +475,7 @@ void thread_awake (int64_t ticks)
 			//list_push_back(&ready_list, &t->elem);
 			elem = temp;
 			thread_unblock(t);
+			print_ready_list();
 		}
 		else
 		{
@@ -515,6 +516,18 @@ void print_ready_list(void)
 	for (elem = ready_list.head.next; elem != &ready_list.tail; elem = elem->next)
 	{
 		printf(" - %s", list_entry(elem, struct thread, elem)->name);
+	}
+	printf("\n");
+}
+void print_sleep_list(void)
+{
+	struct list_elem *elem;
+
+	printf(" = %d\n", next_tick_to_awake);
+
+	for (elem = sleep_list.head.next; elem != &sleep_list.tail; elem = elem->next)
+	{
+		printf(" - %s,%d", list_entry(elem, struct thread, elem)->name, list_entry(elem, struct thread, elem)->wakeup_tick);
 	}
 	printf("\n");
 }

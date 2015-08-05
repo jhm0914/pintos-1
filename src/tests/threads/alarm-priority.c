@@ -51,8 +51,6 @@ alarm_priority_thread (void *aux UNUSED)
      between checking the time and a timer interrupt. */
   timer_sleep (wake_time - timer_ticks ());
 
-  print_ready_list();
-
   /* Print a message on wake-up. */
   msg ("Thread %s woke up.", thread_name ());
 
