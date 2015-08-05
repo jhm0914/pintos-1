@@ -460,11 +460,11 @@ void thread_awake (int64_t ticks)
 {
 	struct thread *t;
 	struct list_elem *elem = sleep_list.head.next;
-	struct list_elem *tail = &sleep_list.tail;
 	struct list_elem *temp;
-	struct list_elem *elem_tmp;
 
-	while (elem != tail)
+	next_tick_to_awake = INT64_MAX;
+
+	while (elem != &sleep_list.tail)
 	{
 		t = list_entry(elem, struct thread, elem);
 		if (t->wakeup_tick <= ticks)
@@ -475,8 +475,6 @@ void thread_awake (int64_t ticks)
 			//list_push_back(&ready_list, &t->elem);
 			elem = temp;
 			thread_unblock(t);
-			printf("thread awake:\n");
-			print_ready_list();
 		}
 		else
 		{
