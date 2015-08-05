@@ -158,10 +158,14 @@ int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
 /*************************************************************************************************/
-void thread_sleep(int64_t ticks); 			/* Change status to sleep the running thread */
-void thread_awake(int64_t ticks); 			/* Wake up the Thread in sleep_list */
-void update_next_tick_to_awake(int64_t ticks); 		/* Save the Thread that have minimum tick */
-int64_t get_next_tick_to_awake(void); 			/*  Return the next_tick_to_awake in thread.c*/
+void thread_sleep(int64_t ticks); 								/* Change status to sleep the running thread */
+void thread_awake(int64_t ticks); 								/* Wake up the Thread in sleep_list */
+void update_next_tick_to_awake(int64_t ticks); 							/* Save the Thread that have minimum tick */
+int64_t get_next_tick_to_awake(void); 								/*  Return the next_tick_to_awake in thread.c*/
+
+void test_max_priority (void);									/* Compare current thread's priority with highest priority, and schduleing */
+bool cmp_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);	/* Compare threads's priority that given as arg */
+void print_ready_list(void);
 /*************************************************************************************************/
 
 #endif /* threads/thread.h */
