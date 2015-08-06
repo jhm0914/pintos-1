@@ -475,7 +475,6 @@ void thread_awake (int64_t ticks)
 			//list_push_back(&ready_list, &t->elem);
 			elem = temp;
 			thread_unblock(t);
-			print_ready_list();
 		}
 		else
 		{
@@ -512,22 +511,31 @@ bool cmp_priority (const struct list_elem *a, const struct list_elem *b, void *a
 void print_ready_list(void)
 {
 	struct list_elem *elem;
-
+	
+	printf("=======================================================\nready_list---------------------------------------------\n");
 	for (elem = ready_list.head.next; elem != &ready_list.tail; elem = elem->next)
 	{
-		printf(" - %s", list_entry(elem, struct thread, elem)->name);
+		printf(" - %d:%s\n", list_entry(elem, struct thread, elem)->tid, list_entry(elem, struct thread, elem)->name);
+		//printf("%p - %p - %p\n", elem->prev, elem, elem->next);
 	}
-	printf("\n");
+	/*printf("\n");
+	for (elem = ready_list.head.next; elem != &ready_list.tail; elem = elem->next)
+	{
+		//printf(" - %s\n", list_entry(elem, struct thread, elem)->name);
+		printf("%p - %p - %p\n", elem->prev, elem, elem->next);
+	}*/
+	printf("=======================================================\n\n");
 }
 void print_sleep_list(void)
 {
 	struct list_elem *elem;
 
-	printf(" = %d\n", next_tick_to_awake);
+	//printf(" = %d\n", next_tick_to_awake);
 
 	for (elem = sleep_list.head.next; elem != &sleep_list.tail; elem = elem->next)
 	{
-		printf(" - %s,%d", list_entry(elem, struct thread, elem)->name, list_entry(elem, struct thread, elem)->wakeup_tick);
+		//printf(" - %s,%d", list_entry(elem, struct thread, elem)->name, list_entry(elem, struct thread, elem)->wakeup_tick);
+		printf(" - %s", list_entry(elem, struct thread, elem)->name);
 	}
 	printf("\n");
 }
@@ -650,7 +658,11 @@ next_thread_to_run (void)
   if (list_empty (&ready_list))
     return idle_thread;
   else
+  {
+    //struct thread *t = list_entry(list_pop_front(&ready_list), struct thread, elem);
     return list_entry (list_pop_front (&ready_list), struct thread, elem);
+    //return t;
+  }
 }
 
 /* Completes a thread switch by activating the new thread's page
@@ -717,9 +729,28 @@ schedule (void)
   ASSERT (cur->status != THREAD_RUNNING);
   ASSERT (is_thread (next));
 
+  switch (cur->tid)
+  {
+  case 8:
+    ASSERT(intr_get_level() == INTR_OFF);
+    break;
+  case 9:
+    ASSERT(intr_get_level() == INTR_OFF);
+    break;
+  }
+
   if (cur != next)
     prev = switch_threads (cur, next);
   thread_schedule_tail (prev);
+
+  /*if (!list_empty(&ready_list))
+  {
+    if (prev != NULL)
+      printf("!!!!!!!!!! prev : %s\n", prev->name);
+    printf("!!!!!!!!!! cur : %s\n", cur->name);
+    printf("!!!!!!!!!! next : %s\n", next->name);
+    print_ready_list();
+  }*/
 }
 
 /* Returns a tid to use for a new thread. */

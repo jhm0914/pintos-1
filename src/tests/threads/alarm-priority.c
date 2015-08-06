@@ -13,6 +13,12 @@ static thread_func alarm_priority_thread;
 static int64_t wake_time;
 static struct semaphore wait_sema;
 
+void print_thread_name()
+{
+	printf("I'm %s\n", thread_name());
+	print_ready_list();
+}
+
 void
 test_alarm_priority (void) 
 {
