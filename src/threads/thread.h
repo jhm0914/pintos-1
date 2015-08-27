@@ -118,6 +118,14 @@ struct thread
     struct file *running_file;				// Running File
 
     int64_t wakeup_tick;
+
+    int init_priority;
+    struct lock *wait_on_lock;
+    struct list donations;
+    struct list_elem donation_elem;
+
+    int nice;
+    int recent_cpu;
     /*************************************************************************************************************/
   };
 
@@ -164,9 +172,12 @@ void update_next_tick_to_awake(int64_t ticks); 							/* Save the Thread that ha
 int64_t get_next_tick_to_awake(void); 								/*  Return the next_tick_to_awake in thread.c*/
 
 void test_max_priority (void);									/* Compare current thread's priority with highest priority, and schduleing */
-bool cmp_priority (const struct list_elem *a, const struct list_elem *b, void *aux UNUSED);	/* Compare threads's priority that given as arg */
-void print_ready_list(void);
-void print_sleep_list(void);
+bool cmp_priority (const struct list_elem *a, const struct list_elem *b, void *aux);		/* Compare threads's priority that given as arg */
+bool cmp_donate_priority (const struct list_elem *a, const struct list_elem *b, void *aux);
+
+void donate_priority (void);
+void remove_with_lock (struct lock *lock);
+void refresh_priority (void);
 /*************************************************************************************************/
 
 #endif /* threads/thread.h */
