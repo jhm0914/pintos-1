@@ -725,13 +725,6 @@ schedule (void)
   struct thread *next = next_thread_to_run ();
   struct thread *prev = NULL;
 
-  /*bool flag_ = false;
-
-  if (cur->tid == 3)
-  {
-    flag_ = true;
-  }*/
-
   ASSERT (intr_get_level () == INTR_OFF);
   ASSERT (cur->status != THREAD_RUNNING);
   ASSERT (is_thread (next));
@@ -739,22 +732,6 @@ schedule (void)
   if (cur != next)
     prev = switch_threads (cur, next);
   thread_schedule_tail (prev);
-
-  /*if (flag_ == true)
-  {
-    //printf("Good!!!!\nprev : %s\tcur : %s\tnext : %s\n", prev->name, cur->name, next->name);
-    printf("Good!!!\n");
-    //print_ready_list();
-  }*/
-
-  if (!list_empty(&ready_list))
-  {
-    /*if (prev != NULL)
-      printf("!!!!!!!!!! prev : %s\n", prev->name);
-    printf("!!!!!!!!!! cur : %s\n", cur->name);
-    printf("!!!!!!!!!! next : %s\n", next->name);*/
-    print_ready_list();
-  }
 }
 
 /* Returns a tid to use for a new thread. */
