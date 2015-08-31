@@ -4,6 +4,7 @@
 #include <debug.h>
 #include <list.h>
 #include <stdint.h>
+#include <hash.h>
 
 #include "synch.h"
 
@@ -117,7 +118,7 @@ struct thread
     int fd_size;					// fd value's Maximum that exist int current table
     struct file *running_file;				// Running File
 
-    int64_t wakeup_tick;
+    int64_t wakeup_tick;				// 
 
     int init_priority;
     struct lock *wait_on_lock;
@@ -126,6 +127,8 @@ struct thread
 
     int nice;
     int recent_cpu;
+
+    struct hash vm;
     /*************************************************************************************************************/
   };
 
