@@ -50,3 +50,30 @@ bool delete_vme (struct hash *vm, struct vm_entry *vme)
 {
 	return (hash_delete(vm, &vme->elem) != NULL) ? true : false;
 }
+void unpin_ptr (void *vaddr)
+{
+	struct vm_entry *vme = find_vme(vaddr);
+	if (vme)
+	{
+		vme->pinned = false;
+	}
+}
+void unpin_string (void *str)
+{
+	struct vm_entry *vme;
+	int i, size = strlen((char*)str);
+
+	for (i = 0; i<size; i++)
+	{
+		unpin_ptr(str+i);
+	}
+}
+void unpin_buffer (void *buffer, unsigned size)
+{
+	int i;
+
+	for (i = 0; i<size; i++)
+	{
+		unpin_ptr(str+i);
+	}
+}

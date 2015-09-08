@@ -30,5 +30,8 @@ static void vm_destroy_func (struct hash_elem *e, void *aux);
 struct vm_entry *find_vme (void *vaddr);
 bool insert_vme (struct hash *vm, struct vm_entry *vme);
 bool delete_vme (struct hash *vm, struct vm_entry *vme);
+void unpin_ptr (void *vaddr);
+void unpin_string (void *str);
+void unpin_buffer (void *buffer, unsigned size);
 
 #endif
