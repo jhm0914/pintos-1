@@ -55,6 +55,9 @@ palloc_init (size_t user_page_limit)
     user_pages = user_page_limit;
   kernel_pages = free_pages - user_pages;
 
+  printf("free_start : %p\nfree_end : %p\nfree_pages : %p\nuser_pages : %p\nkernel_pages : %p\n",
+  	free_start, free_end, free_pages, user_pages, kernel_pages);
+
   /* Give half of memory to kernel, half to user. */
   init_pool (&kernel_pool, free_start, kernel_pages, "kernel pool");
   init_pool (&user_pool, free_start + kernel_pages * PGSIZE,

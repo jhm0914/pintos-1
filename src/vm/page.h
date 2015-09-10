@@ -8,16 +8,16 @@
 
 struct vm_entry
 {
-	uint8_t type;
-	void *vaddr;
-	bool writable;
-	bool is_loaded;
+	uint8_t type;			// VM_BIN, VM_FILE, VM_ANON
+	void *vaddr;			// virtual address that is operated by vm_entry
+	bool writable;			// write flag
+	bool is_loaded;			// flag that inform whether loaded to physical memory
 	bool pinned;
-	struct file *file;
-	struct list_elem mmap_elem;
-	size_t offset;
-	size_t read_bytes;
-	size_t zero_bytes;
+	struct file *file;		// file mapped with vaddr
+	struct list_elem mmap_elem;	// mmap list element
+	size_t offset;			// offset to read in file
+	size_t read_bytes;		// read_bytes (often it's 4KB)
+	size_t zero_bytes;		// zero_bytes (often it's 0)
 	size_t swap_slot;
 	struct hash_elem elem;
 };

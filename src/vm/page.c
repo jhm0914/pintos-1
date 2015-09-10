@@ -22,7 +22,11 @@ static void vm_destroy_func (struct hash_elem *e, void *aux)
 {
 	struct vm_entry *vm = hash_entry(e, struct vm_entry, elem);
 
-	palloc_free_page(vm->vaddr);
+	if (vm->is_loaded)
+	{
+		palloc_free_page(pagedir_get_page(&thread_current()->pagedir, vm->vaddr));
+		pagedir_clear_page(&thread_current()->pagedir, vm->vaddr);
+	}
 
 	free(vm);
 }
