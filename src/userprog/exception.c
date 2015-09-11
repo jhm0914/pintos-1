@@ -127,6 +127,9 @@ page_fault (struct intr_frame *f)
   bool user;         /* True: access by user, false: access by kernel. */
   void *fault_addr;  /* Fault address. */
 
+  struct vm_entry *vme;
+  bool flag_load = false;
+
   /* Obtain faulting address, the virtual address that was
      accessed to cause the fault.  It may point to code or to
      data.  It is not necessarily the address of the instruction
@@ -149,17 +152,34 @@ page_fault (struct intr_frame *f)
   user = (f->error_code & PF_U) != 0;
 
   /*******************************************************************/
-  exit(-1);				// exit the process when occur page fault
-  /*******************************************************************/
+  //exit(-1);				// exit the process when occur page fault
+  /******************************************************************/
+
+  /*if (user)
+  {*/
+    if (not_present)
+    {
+      vme = find_vme(fault_addr);
+    
+      if (vme != NULL)
+      {
+        flag_load = handle_mm_fault(vme);
+      }
+    }
+
+    if (!flag_load)
+    {
+      exit(-1);
+    }
+  //}
 
   /* To implement virtual memory, delete the rest of the function
      body, and replace it with code that brings in the page to
      which fault_addr refers. */
-  printf ("Page fault at %p: %s error %s page in %s context.\n",
+  /*printf ("Page fault at %p: %s error %s page in %s context.\n",
           fault_addr,
           not_present ? "not present" : "rights violation",
           write ? "writing" : "reading",
           user ? "user" : "kernel");
-  kill (f);
+  kill (f);*/
 }
-

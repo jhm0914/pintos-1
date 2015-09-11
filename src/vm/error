@@ -1,0 +1,295 @@
+../../threads/thread.c: In function ‘thread_create’:
+../../threads/thread.c:237:20: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+   t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*)); // malloc the Fiel Descriptor Tabele
+                    ^
+../../threads/thread.c:237:27: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+   t->fdt = (struct file**)malloc(t->fd_size*sizeof(struct file*)); // malloc the Fiel Descriptor Tabele
+                           ^
+../../threads/thread.c: In function ‘thread_exit’:
+../../threads/thread.c:335:21: warning: unused variable ‘elem’ [-Wunused-variable]
+   struct list_elem *elem;
+                     ^
+../../threads/thread.c: In function ‘thread_set_nice’:
+../../threads/thread.c:436:2: warning: implicit declaration of function ‘mlfqs_priority’ [-Wimplicit-function-declaration]
+  mlfqs_priority(cur);
+  ^
+../../threads/thread.c: At top level:
+../../threads/thread.c:611:6: warning: no previous prototype for ‘mlfqs_priority’ [-Wmissing-prototypes]
+ void mlfqs_priority (struct thread *t)
+      ^
+../../threads/thread.c:611:6: warning: conflicting types for ‘mlfqs_priority’ [enabled by default]
+../../threads/thread.c:436:2: note: previous implicit declaration of ‘mlfqs_priority’ was here
+  mlfqs_priority(cur);
+  ^
+../../threads/thread.c:621:6: warning: no previous prototype for ‘mlfqs_recent_cpu’ [-Wmissing-prototypes]
+ void mlfqs_recent_cpu (struct thread *t)
+      ^
+../../threads/thread.c:629:6: warning: no previous prototype for ‘mlfqs_load_avg’ [-Wmissing-prototypes]
+ void mlfqs_load_avg (void)
+      ^
+../../threads/thread.c:636:6: warning: no previous prototype for ‘mlfqs_increment’ [-Wmissing-prototypes]
+ void mlfqs_increment (void)
+      ^
+../../threads/thread.c:645:6: warning: no previous prototype for ‘mlfqs_recalc’ [-Wmissing-prototypes]
+ void mlfqs_recalc (void)
+      ^
+../../threads/palloc.c: In function ‘palloc_init’:
+../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 4 has type ‘size_t’ [-Wformat=]
+    free_start, free_end, free_pages, user_pages, kernel_pages);
+    ^
+../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 5 has type ‘size_t’ [-Wformat=]
+../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 6 has type ‘size_t’ [-Wformat=]
+../../devices/timer.c: In function ‘timer_interrupt’:
+../../devices/timer.c:179:5: warning: implicit declaration of function ‘mlfqs_increment’ [-Wimplicit-function-declaration]
+     mlfqs_increment();
+     ^
+../../devices/timer.c:183:7: warning: implicit declaration of function ‘mlfqs_load_avg’ [-Wimplicit-function-declaration]
+       mlfqs_load_avg();
+       ^
+../../devices/timer.c:184:7: warning: implicit declaration of function ‘mlfqs_recalc’ [-Wimplicit-function-declaration]
+       mlfqs_recalc();
+       ^
+../../devices/timer.c:188:7: warning: implicit declaration of function ‘mlfqs_priority’ [-Wimplicit-function-declaration]
+       mlfqs_priority(thread_current());
+       ^
+../../userprog/process.c: In function ‘process_add_file’:
+../../userprog/process.c:83:2: warning: implicit declaration of function ‘realloc’ [-Wimplicit-function-declaration]
+  t->fdt = realloc(t->fdt, (t->fd_size*2)*sizeof(struct file*));
+  ^
+../../userprog/process.c:83:11: warning: incompatible implicit declaration of built-in function ‘realloc’ [enabled by default]
+  t->fdt = realloc(t->fdt, (t->fd_size*2)*sizeof(struct file*));
+           ^
+../../userprog/process.c: In function ‘argument_stack’:
+../../userprog/process.c:148:13: warning: assignment from incompatible pointer type [enabled by default]
+  for ( temp = esp;
+             ^
+../../userprog/process.c:150:8: warning: assignment from incompatible pointer type [enabled by default]
+   temp = esp   )
+        ^
+../../userprog/process.c:164:14: warning: assignment makes integer from pointer without a cast [enabled by default]
+  ret_address = *esp;
+              ^
+../../userprog/process.c: In function ‘process_exit’:
+../../userprog/process.c:336:3: warning: implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+   free(cur->fdt);
+   ^
+../../userprog/process.c:336:3: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+../../userprog/process.c: In function ‘load_segment’:
+../../userprog/process.c:672:38: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+       struct vm_entry *vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
+                                      ^
+../../userprog/process.c:672:48: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+       struct vm_entry *vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
+                                                ^
+In file included from ../../userprog/process.c:22:0:
+../../userprog/process.c: At top level:
+../../vm/page.h:31:17: warning: ‘vm_hash_func’ declared ‘static’ but never defined [-Wunused-function]
+ static unsigned vm_hash_func (const struct hash_elem *e, void *aux);
+                 ^
+../../vm/page.h:32:13: warning: ‘vm_less_func’ declared ‘static’ but never defined [-Wunused-function]
+ static bool vm_less_func (const struct hash_elem *a, const struct hash_elem *b, void *aux);
+             ^
+../../vm/page.h:33:13: warning: ‘vm_destroy_func’ declared ‘static’ but never defined [-Wunused-function]
+ static void vm_destroy_func (struct hash_elem *e, void *aux);
+             ^
+../../userprog/process.c: In function ‘start_process’:
+../../userprog/process.c:271:21: warning: ‘argv’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     palloc_free_page(argv[i]);
+                     ^
+../../userprog/exception.c: In function ‘page_fault’:
+../../userprog/exception.c:160:5: warning: implicit declaration of function ‘find_vme’ [-Wimplicit-function-declaration]
+     vme = find_vme(fault_addr);
+     ^
+../../userprog/exception.c:160:9: warning: assignment makes pointer from integer without a cast [enabled by default]
+     vme = find_vme(fault_addr);
+         ^
+../../userprog/exception.c:164:7: warning: implicit declaration of function ‘handle_mm_fault’ [-Wimplicit-function-declaration]
+       flag_load = handle_mm_fault(vme);
+       ^
+../../userprog/exception.c:170:5: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+     exit(-1);
+     ^
+../../userprog/exception.c:170:5: warning: incompatible implicit declaration of built-in function ‘exit’ [enabled by default]
+../../userprog/exception.c:127:8: warning: variable ‘user’ set but not used [-Wunused-but-set-variable]
+   bool user;         /* True: access by user, false: access by kernel. */
+        ^
+../../userprog/exception.c:126:8: warning: variable ‘write’ set but not used [-Wunused-but-set-variable]
+   bool write;        /* True: access was write, false: access was read. */
+        ^
+../../userprog/syscall.c: In function ‘halt’:
+../../userprog/syscall.c:36:2: warning: implicit declaration of function ‘shutdown_power_off’ [-Wimplicit-function-declaration]
+  shutdown_power_off();
+  ^
+../../userprog/syscall.c: In function ‘create’:
+../../userprog/syscall.c:52:2: warning: implicit declaration of function ‘filesys_create’ [-Wimplicit-function-declaration]
+  return filesys_create(file, initial_size);
+  ^
+../../userprog/syscall.c: In function ‘remove’:
+../../userprog/syscall.c:56:2: warning: implicit declaration of function ‘filesys_remove’ [-Wimplicit-function-declaration]
+  return filesys_remove(file);
+  ^
+../../userprog/syscall.c: In function ‘exec’:
+../../userprog/syscall.c:64:2: warning: implicit declaration of function ‘process_execute’ [-Wimplicit-function-declaration]
+  pid = process_execute(cmd_line);
+  ^
+../../userprog/syscall.c:67:2: warning: implicit declaration of function ‘get_child_process’ [-Wimplicit-function-declaration]
+  t = get_child_process(pid);
+  ^
+../../userprog/syscall.c:67:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  t = get_child_process(pid);
+    ^
+../../userprog/syscall.c: In function ‘wait’:
+../../userprog/syscall.c:83:2: warning: implicit declaration of function ‘process_wait’ [-Wimplicit-function-declaration]
+  return process_wait(tid);
+  ^
+../../userprog/syscall.c: In function ‘open’:
+../../userprog/syscall.c:92:2: warning: implicit declaration of function ‘filesys_open’ [-Wimplicit-function-declaration]
+  f = filesys_open(file);    // File Open
+  ^
+../../userprog/syscall.c:92:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = filesys_open(file);    // File Open
+    ^
+../../userprog/syscall.c:100:2: warning: implicit declaration of function ‘process_add_file’ [-Wimplicit-function-declaration]
+  fd = process_add_file(f);   // Give File Descriptor to File Object
+  ^
+../../userprog/syscall.c: In function ‘filesize’:
+../../userprog/syscall.c:113:2: warning: implicit declaration of function ‘process_get_file’ [-Wimplicit-function-declaration]
+  f = process_get_file(fd);   // Search the File Object as use fd
+  ^
+../../userprog/syscall.c:113:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = process_get_file(fd);   // Search the File Object as use fd
+    ^
+../../userprog/syscall.c:121:2: warning: implicit declaration of function ‘file_length’ [-Wimplicit-function-declaration]
+  length = file_length(f);   // Save File Length
+  ^
+../../userprog/syscall.c: In function ‘read’:
+../../userprog/syscall.c:129:19: warning: initialization makes pointer from integer without a cast [enabled by default]
+  struct file *f = process_get_file(fd);
+                   ^
+../../userprog/syscall.c:135:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = process_get_file(fd);   // Search the File Object as use fd
+    ^
+../../userprog/syscall.c:139:3: warning: implicit declaration of function ‘input_getc’ [-Wimplicit-function-declaration]
+   for (ch = input_getc(); ch != NULL; ch = input_getc())
+   ^
+../../userprog/syscall.c:139:30: warning: comparison between pointer and integer [enabled by default]
+   for (ch = input_getc(); ch != NULL; ch = input_getc())
+                              ^
+../../userprog/syscall.c:157:4: warning: implicit declaration of function ‘file_read’ [-Wimplicit-function-declaration]
+    i = file_read(f, buffer, size);
+    ^
+../../userprog/syscall.c: In function ‘write’:
+../../userprog/syscall.c:172:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = process_get_file(fd);   // Search the File Object as use fd
+    ^
+../../userprog/syscall.c:189:4: warning: implicit declaration of function ‘file_write’ [-Wimplicit-function-declaration]
+    i = file_write(f, buffer, size);
+    ^
+../../userprog/syscall.c: In function ‘seek’:
+../../userprog/syscall.c:203:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = process_get_file(fd);   // Search the File Object as use fd
+    ^
+../../userprog/syscall.c:205:2: warning: implicit declaration of function ‘file_seek’ [-Wimplicit-function-declaration]
+  file_seek(f, position);    // seek
+  ^
+../../userprog/syscall.c: In function ‘tell’:
+../../userprog/syscall.c:216:4: warning: assignment makes pointer from integer without a cast [enabled by default]
+  f = process_get_file(fd);   // Search the File Object as use fd
+    ^
+../../userprog/syscall.c:218:2: warning: implicit declaration of function ‘file_tell’ [-Wimplicit-function-declaration]
+  off_pos = file_tell(f);    // Get Off Position
+  ^
+../../userprog/syscall.c: In function ‘close’:
+../../userprog/syscall.c:226:2: warning: implicit declaration of function ‘process_close_file’ [-Wimplicit-function-declaration]
+  process_close_file(fd);
+  ^
+../../userprog/syscall.c: In function ‘check_address’:
+../../userprog/syscall.c:229:51: warning: unused parameter ‘esp’ [-Wunused-parameter]
+ struct vm_entry *check_address (void *addr, void* esp)
+                                                   ^
+../../userprog/syscall.c: At top level:
+../../userprog/syscall.c:242:6: warning: no previous prototype for ‘check_valid_buffer’ [-Wmissing-prototypes]
+ void check_valid_buffer (void *buffer, unsigned size, void *esp, bool to_write)
+      ^
+../../userprog/syscall.c: In function ‘check_valid_buffer’:
+../../userprog/syscall.c:242:71: warning: unused parameter ‘to_write’ [-Wunused-parameter]
+ void check_valid_buffer (void *buffer, unsigned size, void *esp, bool to_write)
+                                                                       ^
+../../userprog/syscall.c: At top level:
+../../userprog/syscall.c:260:6: warning: no previous prototype for ‘check_valid_string’ [-Wmissing-prototypes]
+ void check_valid_string (const void *str, void *esp)
+      ^
+../../userprog/syscall.c: In function ‘check_valid_string’:
+../../userprog/syscall.c:263:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
+  struct vm_entry *vme_start = check_address(str, esp);
+         ^
+../../userprog/syscall.c:229:18: note: expected ‘void *’ but argument is of type ‘const void *’
+ struct vm_entry *check_address (void *addr, void* esp)
+                  ^
+../../userprog/syscall.c:264:9: warning: implicit declaration of function ‘strlen’ [-Wimplicit-function-declaration]
+  struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
+         ^
+../../userprog/syscall.c:264:47: warning: incompatible implicit declaration of built-in function ‘strlen’ [enabled by default]
+  struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
+                                               ^
+../../userprog/syscall.c:264:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
+  struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
+         ^
+../../userprog/syscall.c:229:18: note: expected ‘void *’ but argument is of type ‘const void *’
+ struct vm_entry *check_address (void *addr, void* esp)
+                  ^
+../../userprog/syscall.c:270:23: error: ‘buffer’ undeclared (first use in this function)
+   vme = check_address(buffer+(PGSIZE*i), esp);
+                       ^
+../../userprog/syscall.c:270:23: note: each undeclared identifier is reported only once for each function it appears in
+../../userprog/syscall.c: In function ‘syscall_handler’:
+../../userprog/syscall.c:336:3: warning: passing argument 1 of ‘create’ makes pointer from integer without a cast [enabled by default]
+   f->eax = create(arg[0], arg[1]);
+   ^
+../../userprog/syscall.c:50:6: note: expected ‘const char *’ but argument is of type ‘int’
+ bool create (const char *file, unsigned initial_size)
+      ^
+../../userprog/syscall.c:341:3: warning: passing argument 1 of ‘remove’ makes pointer from integer without a cast [enabled by default]
+   f->eax = remove(arg[0]);
+   ^
+../../userprog/syscall.c:54:6: note: expected ‘const char *’ but argument is of type ‘int’
+ bool remove (const char *file)
+      ^
+../../userprog/syscall.c:346:3: warning: passing argument 1 of ‘open’ makes pointer from integer without a cast [enabled by default]
+   f->eax = open(arg[0]);
+   ^
+../../userprog/syscall.c:85:5: note: expected ‘const char *’ but argument is of type ‘int’
+ int open (const char *file)
+     ^
+../../userprog/syscall.c:355:3: warning: passing argument 2 of ‘read’ makes pointer from integer without a cast [enabled by default]
+   f->eax = read(arg[0], arg[1], arg[2]);
+   ^
+../../userprog/syscall.c:127:5: note: expected ‘void *’ but argument is of type ‘int’
+ int read (int fd, void *buffer, unsigned size)
+     ^
+../../userprog/syscall.c:360:3: warning: passing argument 2 of ‘write’ makes pointer from integer without a cast [enabled by default]
+   f->eax = write(arg[0], arg[1], arg[2]);
+   ^
+../../userprog/syscall.c:165:5: note: expected ‘void *’ but argument is of type ‘int’
+ int write (int fd, void *buffer, unsigned size)
+     ^
+../../userprog/syscall.c:302:8: warning: unused variable ‘ptr’ [-Wunused-variable]
+  char *ptr;
+        ^
+In file included from ../../userprog/syscall.c:9:0:
+../../userprog/syscall.c: At top level:
+../../vm/page.h:31:17: warning: ‘vm_hash_func’ declared ‘static’ but never defined [-Wunused-function]
+ static unsigned vm_hash_func (const struct hash_elem *e, void *aux);
+                 ^
+../../vm/page.h:32:13: warning: ‘vm_less_func’ declared ‘static’ but never defined [-Wunused-function]
+ static bool vm_less_func (const struct hash_elem *a, const struct hash_elem *b, void *aux);
+             ^
+../../vm/page.h:33:13: warning: ‘vm_destroy_func’ declared ‘static’ but never defined [-Wunused-function]
+ static void vm_destroy_func (struct hash_elem *e, void *aux);
+             ^
+../../userprog/syscall.c: In function ‘exec’:
+../../userprog/syscall.c:80:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+make[1]: *** [userprog/syscall.o] Error 1
+make: *** [check] Error 2

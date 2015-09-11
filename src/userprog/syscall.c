@@ -6,10 +6,12 @@
 
 #include "threads/vaddr.h"
 
+#include "vm/page.h"
+
 #define MAX_SYSTEMCALL_ARGUMENT 10
 
 static void syscall_handler (struct intr_frame *);
-void check_address (void *addr);
+struct vm_entry *check_address (void *addr, void* esp);
 void get_argument (void *esp, int *arg, int count);
 
 /********************************** System Call's Prototype *****************************************/
@@ -224,13 +226,59 @@ void close (int fd)
 	process_close_file(fd);
 }
 
-void check_address (void *addr)
+struct vm_entry *check_address (void *addr, void* esp)
 {
+	//struct vm_entry *vme;
 	uint32_t address = (uint32_t)addr;
 
 	if (!(0x8048000 < address && address < 0xc0000000))
 	{
 		exit(-1);
+	}
+
+	// Check the vme->is_loaded, and mapping
+	/*vme = find_vme(addr);
+	if (!vme->is_loaded)
+	{
+		handle_mm_fault(vme);
+	}*/
+
+	return find_vme(addr);
+}
+void check_valid_buffer (void *buffer, unsigned size, void *esp, bool to_write)
+{
+	int i, pages;
+	struct vm_entry *vme_start = check_address(buffer, esp);
+	struct vm_entry *vme_end = check_address(buffer+size, esp);
+	struct vm_entry *vme;
+
+	pages = ((int)(vme_start->vaddr - vme_end->vaddr) / PGSIZE) + 1;
+	for (i = 0; i<pages; i++)
+	{
+		vme = check_address(buffer+(PGSIZE*i), esp);
+
+		if (vme == NULL || !vme->writable)
+		{
+			exit(-1);
+		}
+	}
+}
+void check_valid_string (const void *str, void *esp)
+{
+	int i, pages;
+	struct vm_entry *vme_start = check_address(str, esp);
+	struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
+	struct vm_entry *vme;
+
+	pages = ((int)(vme_start->vaddr - vme_end->vaddr) / PGSIZE) + 1;
+	for (i = 0; i<pages; i++)
+	{
+		vme = check_address(str+(PGSIZE*i), esp);
+
+		if (vme == NULL)
+		{
+			exit(-1);
+		}
 	}
 }
 void get_argument (void *esp, int *arg, int count)
@@ -240,7 +288,7 @@ void get_argument (void *esp, int *arg, int count)
 	for (i = 0; i<count; i++)
 	{
 		esp = esp + 4;
-		check_address(esp);
+		check_address(esp, esp);
 		arg[i] = *(int*)esp;
 	}
 }
@@ -263,7 +311,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 	void *esp = f->esp;
 	
 	/* Check Stack Pointer Address */
-	check_address(esp);
+	check_address(esp, esp);
 
 	/* Get SysCall Number from User Stack */
 	syscall_number = *(int*)esp;
@@ -281,7 +329,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_EXEC:
 		get_argument(esp, arg, 1);
-		check_address((void*)arg[0]);
+		check_valid_string((void*)arg[0], esp);
 		f->eax = exec((const char *)arg[0]);
 		break;
 	case SYS_WAIT:
@@ -290,17 +338,17 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_CREATE:
 		get_argument(esp+12, arg, 2);
-		check_address((void*)arg[0]);
+		check_valid_string((void*)arg[0], esp);
 		f->eax = create(arg[0], arg[1]);
 		break;
 	case SYS_REMOVE:
 		get_argument(esp, arg, 1);
-		check_address((void*)arg[0]);
+		check_valid_string((void*)arg[0], esp);
 		f->eax = remove(arg[0]);
 		break;
 	case SYS_OPEN:
 		get_argument(esp, arg, 1);
-		check_address((void*)arg[0]);
+		check_valid_string((void*)arg[0], esp);
 		f->eax = open(arg[0]);
 		break;
 	case SYS_FILESIZE:
@@ -309,12 +357,12 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_READ:
 		get_argument(esp+16, arg, 3);
-		check_address((void*)arg[1]);
+		check_valid_buffer((void*)arg[1], *(int*)arg[2], esp, true);
 		f->eax = read(arg[0], arg[1], arg[2]);
 		break;
 	case SYS_WRITE:
 		get_argument(esp+16, arg, 3);
-		check_address((void*)arg[1]);
+		check_valid_string((void*)arg[1], esp);
 		f->eax = write(arg[0], arg[1], arg[2]);
 		break;
 	case SYS_SEEK:

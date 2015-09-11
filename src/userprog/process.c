@@ -19,10 +19,17 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 
+#include "vm/page.h"
+
 extern struct lock filesys_lock;
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
+
+/********************* VM***************************/
+bool handle_mm_fault (struct vm_entry *vme);
+bool load_file (void *kaddr, struct vm_entry *vme);
+/***************************************************/
 
 void process_close_file (int fd);
 struct file *process_get_file (int fd);
@@ -232,6 +239,8 @@ start_process (void *file_name_)
   }
   /************************************************************************************/
 
+  vm_init(&thread_current()->vm);
+
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
@@ -326,6 +335,8 @@ process_exit (void)
   }
   free(cur->fdt);
   /*************************************************/
+
+  vm_destroy(&cur->vm);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
@@ -640,28 +651,41 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
       size_t page_zero_bytes = PGSIZE - page_read_bytes;
 
       /* Get a page of memory. */
-      uint8_t *kpage = palloc_get_page (PAL_USER);
+      /*uint8_t *kpage = palloc_get_page (PAL_USER);
       if (kpage == NULL)
-        return false;
+        return false;*/
 
       /* Load this page. */
-      if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
+      /*if (file_read (file, kpage, page_read_bytes) != (int) page_read_bytes)
         {
           palloc_free_page (kpage);
           return false; 
         }
-      memset (kpage + page_read_bytes, 0, page_zero_bytes);
+      memset (kpage + page_read_bytes, 0, page_zero_bytes);*/
 
       /* Add the page to the process's address space. */
-      if (!install_page (upage, kpage, writable)) 
+      /*if (!install_page (upage, kpage, writable)) 
         {
           palloc_free_page (kpage);
           return false; 
-        }
+        }*/
+      struct vm_entry *vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
+
+      vme->type = VM_BIN;
+      vme->vaddr = upage;
+      vme->writable = writable;
+      vme->is_loaded = false;
+      vme->file = file;
+      vme->offset = ofs;
+      vme->read_bytes = page_read_bytes;
+      vme->zero_bytes = page_zero_bytes;
+
+      insert_vme(&thread_current()->vm, vme);
 
       /* Advance. */
       read_bytes -= page_read_bytes;
       zero_bytes -= page_zero_bytes;
+      ofs += page_read_bytes;
       upage += PGSIZE;
     }
   return true;
@@ -705,4 +729,54 @@ install_page (void *upage, void *kpage, bool writable)
      address, then map our page there. */
   return (pagedir_get_page (t->pagedir, upage) == NULL
           && pagedir_set_page (t->pagedir, upage, kpage, writable));
+}
+bool handle_mm_fault (struct vm_entry *vme)
+{
+	bool flag_load;
+	void *kaddr;
+
+	kaddr = palloc_get_page(PAL_USER);
+
+	switch (vme->type)
+	{
+	case VM_BIN:
+		flag_load = load_file(kaddr, vme);
+		break;
+	case VM_FILE:
+		flag_load = load_file(kaddr, vme);
+		break;
+	case VM_ANON:
+		flag_load = load_file(kaddr, vme);
+		break;
+	default:
+		return false;
+	}
+
+	if (!flag_load)
+	{
+		return false;
+	}
+
+	vme->is_loaded = install_page(vme->vaddr, kaddr, vme->writable);
+
+	if (!vme->is_loaded)
+	{
+		palloc_free_page(kaddr);
+	}
+
+	return vme->is_loaded;
+
+}
+bool load_file (void *kaddr, struct vm_entry *vme)
+{
+	file_seek(vme->file, vme->offset);
+
+	if (file_read(vme->file, kaddr, vme->read_bytes) != (int)vme->read_bytes)
+	{
+		palloc_free_page(kaddr);
+		return false;
+	}
+	memset(kaddr + vme->read_bytes, 0, vme->zero_bytes);
+
+	return true;
 }
