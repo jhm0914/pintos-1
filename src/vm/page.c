@@ -24,10 +24,11 @@ static void vm_destroy_func (struct hash_elem *e, void *aux)
 
 	if (vme->is_loaded)
 	{
-		/*void *pte = pagedir_get_page(&thread_current()->pagedir, vme->vaddr);
-		palloc_free_page(pte);*/
-		palloc_free_page(pagedir_get_page(thread_current()->pagedir, vme->vaddr));
-		pagedir_clear_page(&thread_current()->pagedir, vme->vaddr);
+		void *kpage = pagedir_get_page(thread_current()->pagedir, vme->vaddr);
+		//if (pte == NULL) {printf("WHAT!!\n");}
+		palloc_free_page(kpage);
+		//palloc_free_page(pagedir_get_page(thread_current()->pagedir, vme->vaddr));
+		pagedir_clear_page(thread_current()->pagedir, vme->vaddr);
 	}
 
 	free(vme);

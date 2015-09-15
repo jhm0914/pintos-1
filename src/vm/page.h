@@ -5,6 +5,7 @@
 #include <hash.h>
 #include "threads/thread.h"
 #include "threads/vaddr.h"
+#include "threads/pte.h"
 
 #define VM_BIN 0
 #define VM_FILE 1

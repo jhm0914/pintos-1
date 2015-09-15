@@ -112,6 +112,7 @@ pagedir_set_page (uint32_t *pd, void *upage, void *kpage, bool writable)
     {
       ASSERT ((*pte & PTE_P) == 0);
       *pte = pte_create_user (kpage, writable);
+      //printf("upage : %p\tkpage : %p\tpte : %p\t*pte : %p\n", upage, kpage, pte, *pte);
       return true;
     }
   else
