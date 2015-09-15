@@ -696,10 +696,12 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 static bool
 setup_stack (void **esp) 
 {
+  struct vm_entry *vme;
   uint8_t *kpage;
   bool success = false;
 
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
+  //printf("================== %p\n", kpage);
   if (kpage != NULL) 
     {
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
@@ -708,6 +710,19 @@ setup_stack (void **esp)
       else
         palloc_free_page (kpage);
     }
+
+  vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
+  vme->type = VM_ANON;
+  vme->vaddr = ((uint8_t*)PHYS_BASE) - PGSIZE;
+  vme->writable = success;
+  vme->is_loaded = success;
+  vme->file = NULL;
+  vme->offset = 0;
+  vme->read_bytes = 0;
+  vme->zero_bytes = 0;
+
+  insert_vme(&thread_current()->vm, vme);
+
   return success;
 }
 

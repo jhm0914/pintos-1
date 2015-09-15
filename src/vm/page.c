@@ -20,15 +20,17 @@ static bool vm_less_func (const struct hash_elem *a, const struct hash_elem *b, 
 }
 static void vm_destroy_func (struct hash_elem *e, void *aux)
 {
-	struct vm_entry *vm = hash_entry(e, struct vm_entry, elem);
+	struct vm_entry *vme = hash_entry(e, struct vm_entry, elem);
 
-	if (vm->is_loaded)
+	if (vme->is_loaded)
 	{
-		palloc_free_page(pagedir_get_page(&thread_current()->pagedir, vm->vaddr));
-		pagedir_clear_page(&thread_current()->pagedir, vm->vaddr);
+		/*void *pte = pagedir_get_page(&thread_current()->pagedir, vme->vaddr);
+		palloc_free_page(pte);*/
+		palloc_free_page(pagedir_get_page(thread_current()->pagedir, vme->vaddr));
+		pagedir_clear_page(&thread_current()->pagedir, vme->vaddr);
 	}
 
-	free(vm);
+	free(vme);
 }
 struct vm_entry *find_vme (void *vaddr)
 {

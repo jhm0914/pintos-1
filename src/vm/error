@@ -33,12 +33,6 @@
 ../../threads/thread.c:645:6: warning: no previous prototype for ‘mlfqs_recalc’ [-Wmissing-prototypes]
  void mlfqs_recalc (void)
       ^
-../../threads/palloc.c: In function ‘palloc_init’:
-../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 4 has type ‘size_t’ [-Wformat=]
-    free_start, free_end, free_pages, user_pages, kernel_pages);
-    ^
-../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 5 has type ‘size_t’ [-Wformat=]
-../../threads/palloc.c:59:4: warning: format ‘%p’ expects argument of type ‘void *’, but argument 6 has type ‘size_t’ [-Wformat=]
 ../../devices/timer.c: In function ‘timer_interrupt’:
 ../../devices/timer.c:179:5: warning: implicit declaration of function ‘mlfqs_increment’ [-Wimplicit-function-declaration]
      mlfqs_increment();
@@ -81,6 +75,10 @@
 ../../userprog/process.c:672:48: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
        struct vm_entry *vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
                                                 ^
+../../userprog/process.c: In function ‘setup_stack’:
+../../userprog/process.c:714:27: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+   vme = (struct vm_entry*)malloc(sizeof(struct vm_entry));
+                           ^
 In file included from ../../userprog/process.c:22:0:
 ../../userprog/process.c: At top level:
 ../../vm/page.h:31:17: warning: ‘vm_hash_func’ declared ‘static’ but never defined [-Wunused-function]
@@ -97,19 +95,19 @@ In file included from ../../userprog/process.c:22:0:
      palloc_free_page(argv[i]);
                      ^
 ../../userprog/exception.c: In function ‘page_fault’:
-../../userprog/exception.c:160:5: warning: implicit declaration of function ‘find_vme’ [-Wimplicit-function-declaration]
-     vme = find_vme(fault_addr);
-     ^
-../../userprog/exception.c:160:9: warning: assignment makes pointer from integer without a cast [enabled by default]
-     vme = find_vme(fault_addr);
-         ^
-../../userprog/exception.c:164:7: warning: implicit declaration of function ‘handle_mm_fault’ [-Wimplicit-function-declaration]
-       flag_load = handle_mm_fault(vme);
+../../userprog/exception.c:162:7: warning: implicit declaration of function ‘find_vme’ [-Wimplicit-function-declaration]
+       vme = find_vme(fault_addr);
        ^
-../../userprog/exception.c:170:5: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
-     exit(-1);
-     ^
-../../userprog/exception.c:170:5: warning: incompatible implicit declaration of built-in function ‘exit’ [enabled by default]
+../../userprog/exception.c:162:11: warning: assignment makes pointer from integer without a cast [enabled by default]
+       vme = find_vme(fault_addr);
+           ^
+../../userprog/exception.c:166:9: warning: implicit declaration of function ‘handle_mm_fault’ [-Wimplicit-function-declaration]
+         flag_load = handle_mm_fault(vme);
+         ^
+../../userprog/exception.c:172:7: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+       exit(-1);
+       ^
+../../userprog/exception.c:172:7: warning: incompatible implicit declaration of built-in function ‘exit’ [enabled by default]
 ../../userprog/exception.c:127:8: warning: variable ‘user’ set but not used [-Wunused-but-set-variable]
    bool user;         /* True: access by user, false: access by kernel. */
         ^
@@ -208,72 +206,74 @@ In file included from ../../userprog/process.c:22:0:
  struct vm_entry *check_address (void *addr, void* esp)
                                                    ^
 ../../userprog/syscall.c: At top level:
-../../userprog/syscall.c:242:6: warning: no previous prototype for ‘check_valid_buffer’ [-Wmissing-prototypes]
+../../userprog/syscall.c:248:6: warning: no previous prototype for ‘check_valid_buffer’ [-Wmissing-prototypes]
  void check_valid_buffer (void *buffer, unsigned size, void *esp, bool to_write)
       ^
 ../../userprog/syscall.c: In function ‘check_valid_buffer’:
-../../userprog/syscall.c:242:71: warning: unused parameter ‘to_write’ [-Wunused-parameter]
+../../userprog/syscall.c:248:71: warning: unused parameter ‘to_write’ [-Wunused-parameter]
  void check_valid_buffer (void *buffer, unsigned size, void *esp, bool to_write)
                                                                        ^
 ../../userprog/syscall.c: At top level:
-../../userprog/syscall.c:260:6: warning: no previous prototype for ‘check_valid_string’ [-Wmissing-prototypes]
+../../userprog/syscall.c:266:6: warning: no previous prototype for ‘check_valid_string’ [-Wmissing-prototypes]
  void check_valid_string (const void *str, void *esp)
       ^
 ../../userprog/syscall.c: In function ‘check_valid_string’:
-../../userprog/syscall.c:263:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
+../../userprog/syscall.c:269:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
   struct vm_entry *vme_start = check_address(str, esp);
          ^
 ../../userprog/syscall.c:229:18: note: expected ‘void *’ but argument is of type ‘const void *’
  struct vm_entry *check_address (void *addr, void* esp)
                   ^
-../../userprog/syscall.c:264:9: warning: implicit declaration of function ‘strlen’ [-Wimplicit-function-declaration]
+../../userprog/syscall.c:270:9: warning: implicit declaration of function ‘strlen’ [-Wimplicit-function-declaration]
   struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
          ^
-../../userprog/syscall.c:264:47: warning: incompatible implicit declaration of built-in function ‘strlen’ [enabled by default]
+../../userprog/syscall.c:270:47: warning: incompatible implicit declaration of built-in function ‘strlen’ [enabled by default]
   struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
                                                ^
-../../userprog/syscall.c:264:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
+../../userprog/syscall.c:270:9: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
   struct vm_entry *vme_end = check_address(str+strlen((char*)str), esp);
          ^
 ../../userprog/syscall.c:229:18: note: expected ‘void *’ but argument is of type ‘const void *’
  struct vm_entry *check_address (void *addr, void* esp)
                   ^
-../../userprog/syscall.c:270:23: error: ‘buffer’ undeclared (first use in this function)
-   vme = check_address(buffer+(PGSIZE*i), esp);
-                       ^
-../../userprog/syscall.c:270:23: note: each undeclared identifier is reported only once for each function it appears in
+../../userprog/syscall.c:276:3: warning: passing argument 1 of ‘check_address’ discards ‘const’ qualifier from pointer target type [enabled by default]
+   vme = check_address(str+(PGSIZE*i), esp);
+   ^
+../../userprog/syscall.c:229:18: note: expected ‘void *’ but argument is of type ‘const void *’
+ struct vm_entry *check_address (void *addr, void* esp)
+                  ^
 ../../userprog/syscall.c: In function ‘syscall_handler’:
-../../userprog/syscall.c:336:3: warning: passing argument 1 of ‘create’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:342:3: warning: passing argument 1 of ‘create’ makes pointer from integer without a cast [enabled by default]
    f->eax = create(arg[0], arg[1]);
    ^
 ../../userprog/syscall.c:50:6: note: expected ‘const char *’ but argument is of type ‘int’
  bool create (const char *file, unsigned initial_size)
       ^
-../../userprog/syscall.c:341:3: warning: passing argument 1 of ‘remove’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:347:3: warning: passing argument 1 of ‘remove’ makes pointer from integer without a cast [enabled by default]
    f->eax = remove(arg[0]);
    ^
 ../../userprog/syscall.c:54:6: note: expected ‘const char *’ but argument is of type ‘int’
  bool remove (const char *file)
       ^
-../../userprog/syscall.c:346:3: warning: passing argument 1 of ‘open’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:352:3: warning: passing argument 1 of ‘open’ makes pointer from integer without a cast [enabled by default]
    f->eax = open(arg[0]);
    ^
 ../../userprog/syscall.c:85:5: note: expected ‘const char *’ but argument is of type ‘int’
  int open (const char *file)
      ^
-../../userprog/syscall.c:355:3: warning: passing argument 2 of ‘read’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:361:3: warning: passing argument 2 of ‘read’ makes pointer from integer without a cast [enabled by default]
    f->eax = read(arg[0], arg[1], arg[2]);
    ^
 ../../userprog/syscall.c:127:5: note: expected ‘void *’ but argument is of type ‘int’
  int read (int fd, void *buffer, unsigned size)
      ^
-../../userprog/syscall.c:360:3: warning: passing argument 2 of ‘write’ makes pointer from integer without a cast [enabled by default]
+../../userprog/syscall.c:366:3: warning: passing argument 2 of ‘write’ makes pointer from integer without a cast [enabled by default]
    f->eax = write(arg[0], arg[1], arg[2]);
    ^
 ../../userprog/syscall.c:165:5: note: expected ‘void *’ but argument is of type ‘int’
  int write (int fd, void *buffer, unsigned size)
      ^
-../../userprog/syscall.c:302:8: warning: unused variable ‘ptr’ [-Wunused-variable]
+../../userprog/syscall.c:308:8: warning: unused variable ‘ptr’ [-Wunused-variable]
   char *ptr;
         ^
 In file included from ../../userprog/syscall.c:9:0:
@@ -291,5 +291,48 @@ In file included from ../../userprog/syscall.c:9:0:
 ../../userprog/syscall.c:80:1: warning: control reaches end of non-void function [-Wreturn-type]
  }
  ^
-make[1]: *** [userprog/syscall.o] Error 1
-make: *** [check] Error 2
+../../vm/page.c: In function ‘vm_hash_func’:
+../../vm/page.c:15:2: warning: passing argument 1 of ‘hash_int’ makes integer from pointer without a cast [enabled by default]
+  return hash_int(vm->vaddr);
+  ^
+In file included from ../../vm/page.h:5:0,
+                 from ../../vm/page.c:1:
+../../lib/kernel/hash.h:101:10: note: expected ‘int’ but argument is of type ‘void *’
+ unsigned hash_int (int);
+          ^
+../../vm/page.c:11:64: warning: unused parameter ‘aux’ [-Wunused-parameter]
+ static unsigned vm_hash_func (const struct hash_elem *e, void *aux)
+                                                                ^
+../../vm/page.c: In function ‘vm_less_func’:
+../../vm/page.c:17:87: warning: unused parameter ‘aux’ [-Wunused-parameter]
+ static bool vm_less_func (const struct hash_elem *a, const struct hash_elem *b, void *aux)
+                                                                                       ^
+../../vm/page.c: In function ‘vm_destroy_func’:
+../../vm/page.c:29:3: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+   printf("-- %p\n", lookup_page(&thread_current()->pagedir, vme->vaddr, false));
+   ^
+../../vm/page.c:29:3: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+../../vm/page.c:29:3: warning: implicit declaration of function ‘lookup_page’ [-Wimplicit-function-declaration]
+../../vm/page.c:29:3: warning: format ‘%p’ expects argument of type ‘void *’, but argument 2 has type ‘int’ [-Wformat=]
+../../vm/page.c:30:3: warning: implicit declaration of function ‘palloc_free_page’ [-Wimplicit-function-declaration]
+   palloc_free_page(pagedir_get_page(&thread_current()->pagedir, vme->vaddr));
+   ^
+../../vm/page.c:30:3: warning: implicit declaration of function ‘pagedir_get_page’ [-Wimplicit-function-declaration]
+../../vm/page.c:31:3: warning: implicit declaration of function ‘pagedir_clear_page’ [-Wimplicit-function-declaration]
+   pagedir_clear_page(&thread_current()->pagedir, vme->vaddr);
+   ^
+../../vm/page.c:34:2: warning: implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+  free(vme);
+  ^
+../../vm/page.c:34:2: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+../../vm/page.c:21:57: warning: unused parameter ‘aux’ [-Wunused-parameter]
+ static void vm_destroy_func (struct hash_elem *e, void *aux)
+                                                         ^
+../../vm/page.c: In function ‘find_vme’:
+../../vm/page.c:47:3: warning: return from incompatible pointer type [enabled by default]
+   return h;
+   ^
+vm/page.o: In function `vm_destroy_func':
+/home/junetaek/pintos/src/vm/build/../../vm/page.c:29: undefined reference to `lookup_page'
+make[1]: *** [kernel.o] Error 1
+make: *** [all] Error 2
