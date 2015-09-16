@@ -357,7 +357,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 		break;
 	case SYS_READ:
 		get_argument(esp+16, arg, 3);
-		check_valid_buffer((void*)arg[1], *(int*)arg[2], esp, true);
+		check_valid_buffer((void*)arg[1], arg[2], esp, true);
 		f->eax = read(arg[0], arg[1], arg[2]);
 		break;
 	case SYS_WRITE:
